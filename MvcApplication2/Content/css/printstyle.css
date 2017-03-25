@@ -1,0 +1,55 @@
+﻿
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    font: 12pt "Tahoma";
+
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.header{
+    padding:5px;
+    width: 30cm;
+    min-height: 8cm;
+    
+}
+.header h1{
+    color:blue;
+}
+.page {
+    width: 30cm;
+    min-height: 29.7cm;
+    padding: 2cm;
+    margin: 1cm auto;
+    border: 1px white solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.subpage {
+    padding: 1cm;
+    border: 2px #07244d solid;
+    height: 300mm;
+    outline: 2cm #FAFAFA solid;
+    /*page-break-before:right;*/
+    color:#000000;
+}
+
+@page {
+    size:A4;
+    margin: 0;
+}
+@media print {
+    .page {
+        margin: 0;
+        border: #07244d;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        page-break-after: always;
+    }
+}

@@ -1,0 +1,46 @@
+﻿@model almacen.Models.ProduccionModel
+@{
+    ViewBag.Title = "reportemermas";
+}
+<header class="page-header">
+    <center><h3>Reporte de Mermas</h3></center>
+</header>
+<div class="container fluid">
+    <div class="col-md-12 formulario">
+
+@using (Html.BeginForm("reportemermas", "Produccion", FormMethod.Post)){
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+     
+        <table class="table table-bordered table-condensed">
+            <legend>
+                Detalle Insumo 
+                <a href="~/Produccion/reportePDF" class="btn btn-danger" title="Clck aqui para reportar en PDF" target="_blank">PDF</a>         
+                <a href="~/Produccion/TablasSemProduccIns" class="btn btn-success pull-right"><span class="fa fa-arrow-left"></span>volver</a>        
+             </legend>
+            <thead class="text-center">
+                <tr class="btn-success">
+                    <td><strong>Productor</strong></td>
+                    <td><strong>Codigo</strong></td>
+                    <td><strong>Nombre Insumo</strong></td>
+                    <td><strong>Diferencia</strong></td>
+                    <td><strong>Costo</strong></td>                           
+                </tr>
+            </thead>        
+                <tbody>
+                    @foreach (var item in Model.listareporteProdTerm)
+                    {
+                        <tr>
+                            <td class="text">@Html.DisplayFor(modelItem => item[0])</td>
+                            <td class="text">@Html.DisplayFor(modelItem => item[1])</td>
+                            <td class="text">@Html.DisplayFor(modelItem => item[2])</td>
+                            <td class="text">@Html.DisplayFor(modelItem => item[3])</td>
+                            <td class="text">@Html.DisplayFor(modelItem => item[4])</td>
+                        </tr>
+                    }
+                </tbody>
+       </table>
+}
+    </div>
+   
+</div>

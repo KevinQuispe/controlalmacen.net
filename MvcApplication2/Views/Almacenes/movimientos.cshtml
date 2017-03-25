@@ -1,0 +1,139 @@
+﻿@model almacen.Models.AlmacenModel
+@{
+    ViewBag.Title = "Registrar Almacen";
+}
+@if (Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header"><center><h3>Movimiento Stock Almacen</h3></center></header>
+    <div class="container-fluid">
+        @using (Html.BeginForm("movimientos", "Almacenes", FormMethod.Post))
+        {
+            <div class="col-md-12 formulario">
+                <div>
+                    <legend>Detalle de Transferencia</legend>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Almacen que Envia</label>
+                        </div>
+                        <div>
+                            @Html.TextBoxFor(model => model.codigo, new { @class = "form-control", @maxlength = "2", @readonly = "readonly" })
+                            @Html.HiddenFor(model => model.codigo)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Almacen Recepcion</label>
+                        </div>
+                        @if (Model.estado == 1)
+                        {
+                            <div>
+                                @Html.DropDownListFor(model => model.codigoReceptor, Model.listadropalmacenes, "Seleccione almacen", new { @class = "form-control", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.codigoReceptor, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                @Html.DropDownListFor(model => model.codigoReceptor, Model.listadropalmacenes, "Seleccione almacen", new { @class = "form-control", @disabled = "disabled" })
+                                @Html.HiddenFor(model => model.codigoReceptor)
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div>
+                            <label>Nro Guia</label>
+                        </div>
+                      
+                            @if (Model.estado == 1)
+                            {
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.guia, new { @class = "form-control", @placeholder = "Ingrese numero de guía de remisión", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.guia, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" name="sbMovimAlm" value="Confirmar" class="btn btn-success">Confirmar Guia</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.guia, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.guia)
+                                </div>
+                            }
+                       
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Raw(Model.msjAlmacen)
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                @if (Model.estado == 2)
+                {
+                    <div class="container-fluid">
+                        <div class="col-md-12 formulario">
+                            <div class="col-md-3">
+                                <div>
+                                    <label>Elija Insumo</label>
+                                </div>
+                                <div>
+                                    @Html.DropDownListFor(model => model.insumo, Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.insumo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label>Cantidad a Transferir</label>
+                                </div>
+                                <div>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(model => model.cantidadRecibir, new { @class = "form-control", @placeholder = "Ingrese cantidad", @required = "required", @type = "number", @step = "0.0000001", @min = "0" })
+                                        @Html.ValidationMessageFor(model => model.cantidadRecibir, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" name="sbMovimAlm" value="Registrar" class="btn btn-success">Agregar insumo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.tablansumoscant.Any())
+                            {
+                                <table class="table table-bordered table-condensed">
+                                    <legend>Detalle</legend>
+                                    <thead>
+                                        <tr class="btn-success text-center text-justify">
+                                            <th>Codigo</th>
+                                            <th>Insumo</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.tablansumoscant)
+                                        {
+                                            <tr class="text-justify">
+                                                <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                                <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                                <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

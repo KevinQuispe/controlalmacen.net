@@ -1,0 +1,55 @@
+﻿@model  almacen.Models.usuario
+@{
+    ViewBag.Title = "DeleteUser";
+
+}
+@if (Model != null && Session["Username"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar Usuario</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Esta seguro de eliminar este usuario?</h3>
+            <table class="table table-bordered table-condensed table-responsive">
+                <legend>Datos de Usuario</legend>
+                <thead>
+                    <tr class="btn-success">
+                        <td><strong>Login</strong></td>
+                        <td><strong>Password</strong></td>
+                        <td><strong>Nombres</strong></td>
+                        <td><strong>Apellidos</strong></td>
+                        <td><strong>Correo</strong></td>
+                        <td><strong>Telefono</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.loggin)</td>
+                        <td>@Html.DisplayFor(model => model.pass)</td>
+                        <td>@Html.DisplayFor(model => model.nombres)</td>
+                        <td>@Html.DisplayFor(model => model.apellidos)</td>
+                        <td>@Html.DisplayFor(model => model.correo)</td>
+                        <td>@Html.DisplayFor(model => model.telefono)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/Usuarios/ListarUsuarios" class="btn btn-success"><span class="fa fa-arrow-left"></span>Volver</a>
+            </p>
+        }
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

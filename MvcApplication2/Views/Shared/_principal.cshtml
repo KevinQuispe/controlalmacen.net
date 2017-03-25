@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title Control de Almacen</title>
+    <link href="~/Images/icon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css/bootstrap.css")
+    @Scripts.Render("~/Content/js/jquery.min.js")
+    @Scripts.Render("~/Content/js/formulario.js")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css">
+    <link href="~/Content/css/bootstrap-theme.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Content/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.js"></script>
+    <!--fucton jquery for calendar-->
+   
+    <script>
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+
+        $(function () {
+            $("#fechaI").datepicker(
+            {
+                dateFormat: "dd/mm/yy",
+                dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+                dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                firstDay: 1,
+                gotoCurrent: true,
+                monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            }
+            );
+        });
+        $(function () {
+            $("#fechaF").datepicker(
+            {
+                dateFormat: "dd/mm/yy",
+                dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+                dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                firstDay: 1,
+                gotoCurrent: true,
+                monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            }
+            );
+        });
+    </script>
+    <style type="text/css">
+           .menupermiso {
+               @if (Session["bloquear"]!=null)
+               {
+                 @Html.Raw(Session["bloquear"])
+               }else{
+                 @Html.Raw("pointer-events: none;")
+               }
+           }
+    </style>  
+    <script>
+        $("lis").click(function (e) {
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+    </script>
+</head>
+<body onload="noBack();" style=" background-color: #f3f7f8">
+    <header>
+            <div class="container-fluid">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-collapse">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Menu</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="~/Home/Index">
+                            @*<img src="Images/logo.jpg" width="40" height="20" title="Agronegocios los angeles" alt="kevin"
+                                 class="img-responsive img-rounded imagen">*@<h4 class="titulo">AGRONEGOCIOS LOS ANGELES S.A.C</h4> 
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                            <li class="dropdown menupermiso">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Almacenes<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Almacenes</li>
+                                    <li>@Html.ActionLink("Agregar Almacen", "agregaralmacen", "Almacenes")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Movimientos", "movimientos", "Almacenes")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown menupermiso">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Insumos<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Insumos</li>
+                                    <li>@Html.ActionLink("Registrar Insumos", "ListadeInsumos", "Insumos")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Registro de Comprobantes", "compras", "Insumos")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Stock de Insumos", "StockInsumo", "Insumos")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown menupermiso">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Semanas<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Semanas</li>
+                                    <li>@Html.ActionLink("Registrar Semana", "registrarsemana", "Semanas")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Activar Semana", "activarsemana", "Semanas")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Cerrar semana", "cerrarsemana", "Semanas")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown menupermiso">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Productores<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Productores</li>
+                                   <li>@Html.ActionLink("Guia Productor", "detalleGuia", "Productores")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Guia Interna", "registrarguia2", "Productores")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Stock Productor", "listastockCliente", "Clientes")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Stock Semana", "stockcliente", "Clientes")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Lista Productores", "listaclientes", "Clientes")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                        
+                            <li class="dropdown menupermiso">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Produccion<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Produccion</li>
+                                    <li>@Html.ActionLink("Producto Terminado", "listaProdTerminado", "Produccion")</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.ActionLink("Semana Producción", "semanaProduccion", "Produccion")</li>
+                                    <li role="separator" class="divider"></li>
+                                    @*<li>@Html.ActionLink("Tabla Producción", "TablasemanaProduccion", "Produccion")</li>*@
+                                   @* <li role="separator" class="divider"></li>*@
+                                    <li>@Html.ActionLink("Tabla de Producción", "TablasSemProduccIns", "Produccion")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown menupermis">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Proveedores<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Proveedores</li>
+                                    <li id="li">@Html.ActionLink("Proveedores", "listaProveedores", "Proveedores")</li>
+                                    <li role="separator" class="divider"></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown">Usuarios<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header bg-success">Usuarios</li>
+
+                                    <li id="li">@Html.ActionLink("Registrar Usuarios", "ListarUsuarios", "Usuarios")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle btnsalir" data-toggle="dropdown">Salir<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li role="separator" class="divider"></li>
+                                    <li id="li" class="bg-danger">@Html.ActionLink("Salir", "Login", "Home")</li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                      </div>
+                </nav> <!--close nav bar-->
+            </div>
+        
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <footer class="pie">
+        <div class="content-wrapper">
+            <div class="float">
+                <p><span class="fa fa-home fa-2x"></span> Agronegocios los Angeles S.A.C &copy; @DateTime.Now.Year</p>
+                <p> <span class="fa fa-phone fa-1x"></span> Telefono:0051-344826</p>
+
+            </div>
+        </div>
+    </footer>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

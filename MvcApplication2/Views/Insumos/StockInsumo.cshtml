@@ -1,0 +1,67 @@
+﻿@model almacen.Models.InsumoModel
+@{
+    ViewBag.Title = "Stock de Insumoss";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm("StockInsumo", "Insumos", FormMethod.Post, new { id = "form2" }))
+    {
+        <header class="page-header"><center><h3>Stock de Insumos por Almacen</h3></center></header>
+
+        <div class="container formulario">
+            <div class="col-xs-12 col-sm-6 col-md-12" >
+            <div class="form-group"></div>
+            <form class="form-horizontal">
+                <legend>CONSULTAR POR INSUMOS</legend>
+                <div class="col-md-12 col-md-offset-6">
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.elegido, Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-success">
+                            consultar
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+
+                    </div>
+                </div>
+                <div class="col-md-12"></div>
+                <div class="form-group">
+
+                </div>
+                <div class=" col-xs-12 col-sm-6 col-md-12"  >
+                    <table class="table table-bordered table-condensed table table-responsive" >
+                        <tr class="btn-success">
+                            <td><strong>Codigo de Insumo</strong></td>
+                            <td><strong>Nombre de Insumo</strong></td>
+                            <td><strong>Cantidad</strong></td>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model.listastcokinsumos)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </form>
+          </div>
+        </div>
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

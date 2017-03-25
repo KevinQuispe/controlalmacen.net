@@ -1,0 +1,89 @@
+﻿@model almacen.Models.ProductorModel
+
+@{
+    ViewBag.Title = "Edición Guía";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Editar Guia</h3></center>
+    </header>
+    <div class="container fluid">
+        <div class="col-md-12 formulario">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend>Datos de la Guía</legend>
+                    @Html.HiddenFor(model => model.numGuia)
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-sm-4">Número</label>
+                        <div class="col-sm-5 col-md-5">
+                            @Html.TextBoxFor(model => model.numGuia, new { @class = "form-control", @placeholder = "Número", @type = "text" })
+                            @Html.ValidationMessageFor(model => model.numGuia)
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-sm-4">Fecha</label>
+                        <div class="col-sm-5 col-md-5">
+                            @Html.TextBoxFor(model => model.fecha, new { @class = "form-control", @id = "fechaI" })
+                            @Html.ValidationMessageFor(model => model.fecha)
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-sm-4">RUC Proveedor</label>
+                        <div class="col-sm-5 col-md-5">
+                            @Html.TextBoxFor(model => model.ruc, new { @class = "form-control", @placeholder = "RUC", @type = "text" })
+                            @Html.ValidationMessageFor(model => model.ruc)
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-sm-4">Persona Recepciona</label>
+                        <div class="col-sm-5 col-md-5">
+                            @Html.TextBoxFor(model => model.personaRecep, new { @class = "form-control", @placeholder = "Quien recepciona", @type = "text", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.personaRecep)
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-sm-4">Observación</label>
+                        <div class="col-sm-5 col-md-5">
+                            @Html.TextBoxFor(model => model.observ, new { @class = "form-control", @placeholder = "Observación", @type = "text" })
+                            @Html.ValidationMessageFor(model => model.observ)
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button id="btnEditarCompra" type="submit" value="Save" class="btn btn-success" onclick="this.form.submit(); this.disabled=true;">Guardar</button>
+                            <a href="~/Productores/detalleGuia" class="btn btn-success"><i class="fa fa-arrow-left"></i> volver</a>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("msgEditGuia", "", new { @class = "text-info" })
+                </fieldset>
+            }
+        </div>
+        <script type="text/javascript">
+        @Html.Raw(Model.jsFormulario)
+            jQuery(function ($) {
+                $("#ruc").mask("99999999999");
+                $("#fechaI").mask("99/99/9999");
+            });
+        </script>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

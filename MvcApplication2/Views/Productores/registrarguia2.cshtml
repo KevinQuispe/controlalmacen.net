@@ -1,0 +1,345 @@
+﻿@model almacen.Models.ProductorModel
+@{
+    ViewBag.Title = "GuiaProductor";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+ <header class="page-header"><center><h3>Guia de Productor</h3></center></header>
+    <div class="container formulario">
+        <!--contenedor guia-->
+        <div class="form-horizontal">
+            <legend>Registrar Guía <a href="~/Productores/registrarguia2" class="btn btn-success pull-right">Nuevo</a></legend>
+            @using (Html.BeginForm("registrarguia2", "Productores", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="col-md-3" id="div1">
+                    <label>Número Guía</label>
+                    @Html.TextBoxFor(s => s.numGuia, new { @class = "form-control", @placeholder = "Ingrese numero guia", @maxlength = "20", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.numGuia, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha Emision</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.TextBoxFor(s => s.fecha, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaI" })
+                        @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha Inicio de Traslado</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.TextBoxFor(s => s.fechaT, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaF" })
+                        @Html.ValidationMessageFor(model => model.fechaT, "", new { @class = "text-danger" })
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de partida</label>
+                    @Html.TextBoxFor(s => s.puntopartida, new { @class = "form-control", @placeholder = "Ingrese direccion de almacen", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.puntopartida, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de llegada</label>
+                    @Html.TextBoxFor(s => s.puntollegada, new { @class = "form-control", @placeholder = "Ingrese direccion de cliente", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.puntollegada, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <label>Persona Recepción</label>
+                    @Html.TextBoxFor(s => s.personaRecep, new { @class = "form-control", @placeholder = "Ingrese persona recepcion", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.personaRecep, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label>Salida </label>
+                    @Html.DropDownListFor(s => s.salidaodevolucion, new SelectListItem[] { new SelectListItem() { Text = "Salida", Value = "1" } }, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="col-md-12">
+                    <hr class="style-four">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Remite</label>
+                    @Html.TextBoxFor(s => s.rznsocial, new { @class = "form-control", @placeholder = "Ingrese razon social del remitente", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.personaRecep, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC</label>
+                    @Html.TextBoxFor(s => s.ruc, new { @class = "form-control", @placeholder = "Ingrese ruc", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label>Destinatario</label>
+                    @Html.TextBoxFor(s => s.razondestinatario, new { @class = "form-control", @placeholder = "Ingrese razon social destinatario", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.razondestinatario, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC Cliente</label>
+                    @Html.TextBoxFor(s => s.ruccliente, new { @class = "form-control", @placeholder = "Ingrese ruc de cliente", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.ruccliente, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Otro Doc. Identidad N°</label>
+                    @Html.TextBoxFor(s => s.otrodoc, new { @class = "form-control", @placeholder = "N° documento identidad", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Vehiculo Marca Y Placa N°</label>
+                    @Html.TextBoxFor(s => s.marcaplacavh, new { @class = "form-control", @placeholder = "N° placa de vehiculo", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.marcaplacavh, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Configuracion vehicular</label>
+                    @Html.TextBoxFor(s => s.confvehicular, new { @class = "form-control", @placeholder = "Configuracion vehicular", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.confvehicular, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Cert. Ins M.T.C</label>
+                    @Html.TextBoxFor(s => s.MTC, new { @class = "form-control", @placeholder = "Ingrese Cert Insc. MTC", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.MTC, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Licencia de conducir</label>
+                    @Html.TextBoxFor(s => s.licenciaconducir, new { @class = "form-control", @placeholder = "Ingrese Lic de Conducir", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.licenciaconducir, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                <div class="col-md-6">
+                    @Html.Raw(Model.msjProductorModel)
+                </div>
+                <div class="col-md-12 ">
+                    <div class="pull-right">
+                        <button type="submit" value="Registrar" class="btn btn-success">Registrar</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+            </div>
+        </div>
+        <div class="container">
+            @if (Model.estado == 2)
+            {
+                <div class="row col-md-12">
+                    <table class="table table-bordered">
+                        <tr class="btn-success">
+                            <td><strong>N°guía</strong></td>
+                            <td><strong>RUC</strong></td>
+                            <td><strong>Razon Social</strong></td>
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Persona Recepción</strong></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.numGuia)< /td>
+                            <td>@Html.DisplayFor(model => model.ruc)</td>
+                            <td>@Html.DisplayFor(model => model.rznsocial)</td>
+                            <td>@Html.DisplayFor(model => model.fecha)</td>
+                            <td>@Html.DisplayFor(model => model.personaRecep)</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+    </div><!--close registro guia productor-->
+    if (Model.estado != 1)
+    {
+        using (Html.BeginForm("agregarinsumo2", "Productores", FormMethod.Post, new { id = "form2" }))
+        {
+            <div class="form-group"></div>
+            @Html.HiddenFor(model => model.numGuia)
+            @Html.HiddenFor(model => model.ruc)
+            @Html.HiddenFor(model => model.fecha)
+            @Html.HiddenFor(model => model.personaRecep)
+            @Html.HiddenFor(model => model.observ)
+            @Html.HiddenFor(model => model.salidaodevolucion)
+            <div class="container formulario">
+                <div class="col-md-12 ">
+                    <legend>Agregar Insumo</legend>
+                    @if (Model.estado == 2)
+                    {
+                        <div class="col-md-1">
+                            <label>Producto</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.codtipo, Model.listadropproduccion, "Seleccione produccion", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-1">
+                            <label>cantidad</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(s => s.cantCajas, new { @class = "form-control", @placeholder = "N° cajas", @type = "number", @min = "1", @required = "required" })
+                        </div>
+                        <div class="col-md-1">
+                            <label>Paletizado</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.paletizado, new SelectListItem[] { new SelectListItem() { Text = "Paletizado", Value = "1" }, new SelectListItem() { Text = "No Paletizado", Value = "2" } }, "Seleccione si es paletizado", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-12"><div class="form-group"></div></div>
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <button type="submit" name="sbAddInsum" value="Confirmar" class="btn btn-success"><li class="fa fa"></li>Confirmar</button>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-12"><div class="form-group"></div></div>
+                    <div class="col-md-12"><div class="form-group">@Html.Raw(Model.msjerror)</div></div>
+                    <div class="col-md-12"><div class="form-group">@Html.HiddenFor(model => model.listado)</div></div>
+                    @if (Model.estado == 2 && Model.listainsqfaltan.Any())
+                    {
+                        <div class="col-md-12">
+                            <table class="table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td><span class="text-danger"><u>Codigo</u></span></td>
+                                        <td><span class="text-danger"><u>Insumo</u></span></td>
+                                        <td><span class="text-danger"><u>Falta</u></span></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.listainsqfaltan)
+                                    {
+                                        <tr>
+                                            <td><span class="text-danger"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i>&nbsp;@Html.DisplayFor(modelItem => item[0])</span></td>
+                                            <td><span class="text-danger">@Html.DisplayFor(modelItem => item[1])</span></td>
+                                            <td><span class="text-danger">@Html.DisplayFor(modelItem => item[2])</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    @if (Model.listado != null)
+                    {
+                        <div class="col-md-12">
+                            <button type="submit" name="sbAddInsum" value="Mostrar" class="btn btn-warning"><li class="fa fa-eye"></li>Mostrar</button>
+                        </div>
+                    }
+                    @if (Model.estado == 3)
+                    {
+                        <legend>Detalle de Insumos </legend>
+                        <table class="table table-bordered">
+                            <tr class="btn-success">
+                                <td><strong>Insumo</strong></td>
+                                <td><strong>Nombre Insumo</strong></td>
+                                <td><strong>Cantidad</strong></td>
+                                <td><strong>Confirmar</strong></td>
+                            </tr>
+                            @foreach (var item in Model.listatipobyproduccion)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item[2])
+                                        <a onclick="asignarValor(this.id)" class="btn btn-warning btn-sm pull-right" data-toggle="modal" data-target="#myModal" id="@item[0]-@item[2]">
+                                            <span class="text-primary"><i class="fa fa-pencil" aria-hidden="true"></i>Editar</span>
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        <a onclick="asignarValor(this.id)" class="btn btn-danger btn-sm pull" data-toggle="modal" data-target="#myModal" id="@item[0]-@item[2]">
+                                            <span class="text-primary"><i class="fa fa-trash" aria-hidden="true"></i>Delete</span>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </table>
+                        <div class="col-md-12 ">
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-info">Agregar a Guia</button>
+                            </div>
+                        </div>
+                    <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header btn-success">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><center>Editar Costo</center></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="contenido" class="hideable">
+                                            <div class="col-md-12 formulario">
+                                                <fieldset class="has-success">
+                                                    <div class="col-md-12" id="formcostosadicionales">
+                                                        <legend>Cantidad de Insumo Real a Editar</legend>
+                                                        <div class="form-group">
+                                                            <div class="col-md-2">
+                                                                <label>Codinsumo</label>
+                                                            </div>
+                                                            <div class="col-md-4 form-group">
+                                                                @Html.TextBoxFor(s => s.insumo, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-md-2 ">
+                                                                <label>cantidad</label>
+                                                            </div>
+                                                            <div class="col-md-4 form-group">
+                                                                @Html.TextBoxFor(s => s.cantidad, new { @class = "form-control", @placeholder = "Ingrese cantidad", @required = "required", @type = "number", @step = "0.0000001", @min = "0" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-md-push">
+                                                            <div class="pull-right">
+                                                                <button type="submit" name="sbAddInsum" value="Grabar" class="btn btn-success">Grabar</button>
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12"><div class="form-group"></div></div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  <!--close Modal -->
+                        <script type="text/javascript">
+                            function asignarValor(val) {
+                                var arr = val.split("-");
+                                document.getElementById("insumo").value = arr[0];
+                                document.getElementById("cantidad").value = arr[1];
+                            }
+                        </script>
+                    }
+                </div>
+            </div>
+            <br />
+            if (Model.estado == 1)
+            {
+                <script type="text/javascript">bloqueaform("form2");</script>
+            }
+            if (Model.estado == 2 || Model.estado == 3)
+            {
+                <script type="text/javascript">
+                    bloqueaform("form1");
+                    ponerfocus("cantCajas")
+                </script>
+            }
+        }
+    }
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $("#ruc").mask("99999999999");
+            $("#fechaI").mask("99/99/9999");
+            $("#fechaF").mask("99/99/9999");
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

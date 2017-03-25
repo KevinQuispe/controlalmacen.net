@@ -1,0 +1,59 @@
+﻿@model  almacen.Models.detalleCompraModel
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar compra</h3></center>
+    </header>
+    <div class="container formulario">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Estas seguro que quieres eliminar?</h3>
+            <fieldset>
+                <table class="table table-bordered">
+                    <legend>Datos de compra</legend>
+                    <thead>
+                        <tr class="btn-success">
+                            <td><strong>Nombre Insumo</strong></td>
+                            <td><strong>Precio</strong></td>
+                            <td><strong>Cantidad</strong></td>
+                            <td><strong>Observacion</strong></td>
+                            <td><strong>Total</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.insumo)</td>@Html.HiddenFor(model => model.idcompra)@Html.HiddenFor(model => model.codinsumo)
+                            <td>@Html.DisplayFor(model => model.precio)</td>
+                            <td>@Html.DisplayFor(model => model.cantidad)</td>
+                            <td>@Html.DisplayFor(model => model.Observacion)</td>
+                            <td>@Html.DisplayFor(model => model.total)</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+
+                @Html.ActionLink("Volver", "detallecompras", new { id = Model.idcompra }, new { @class = "btn btn-success" })
+            </p>
+
+
+        }
+    </div>
+    <div class="form-group"></div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

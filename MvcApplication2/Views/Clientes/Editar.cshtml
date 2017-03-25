@@ -1,0 +1,78 @@
+﻿@model almacen.Models.ClienteModel
+@{
+    ViewBag.Title = "Editar";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Editar Cliente Productor</h3></center>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2 formulario">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset>
+                        <form class="form">
+                            <legend>Datos de cliente <li class="fa fa-user fa-1x"></li></legend>
+
+                            <div class="col-md-2">
+                                <label>Ruc</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.ruc, new { @class = " form-control", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Razon social</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.razon_soc, new { @class = "form-control", @placeholder = "Ingrese razon social" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Direccion</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.direc, new { @class = "form-control",@placeholder = "Ingrese direccion" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Telefono</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.telef, new { @class = "form-control",@placeholder = "Ingrese telefono" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Correo</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.correo, new { @class = "form-control", @placeholder = "Ingrese email", @type = "email"})
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label>Rep Legal</label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.rep_leg, new { @class = "form-control", @placeholder = "Ingrese representacion legal" })
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="form-group"></div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-success fa fa-floppy-o"> Guardar</button>
+                                <a href="~/Clientes/listaclientes" class="btn btn-success fa fa-arrow-left"> Volver</a>
+                            </div>
+                        </form>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

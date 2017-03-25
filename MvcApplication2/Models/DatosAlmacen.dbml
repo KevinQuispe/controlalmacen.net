@@ -1,0 +1,1282 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ALMACENBD" Class="DatosAlmacenDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=SERVERPC;Initial Catalog=ALMACENBD;User ID=sa;MultipleActiveResultSets=True;Application Name=EntityFramework" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ALMACENBDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.almacen" Member="almacens">
+    <Type Name="almacen">
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="direccion" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Association Name="almacen_guiaCliente" Member="guiaClientes" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="guiaCliente" />
+      <Association Name="almacen_semana_insumo" Member="semana_insumos" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="semana_insumo" />
+      <Association Name="almacen_semana" Member="semanas" ThisKey="cod_almacen" OtherKey="codalmacen" Type="semana" />
+      <Association Name="almacen_stock_almacen" Member="stock_almacens" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="stock_almacen" />
+      <Association Name="almacen_inventario_inicial" Member="inventario_inicials" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="inventario_inicial" />
+      <Association Name="almacen_compra" Member="compras" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="compra" />
+    </Type>
+  </Table>
+  <Table Name="dbo.detalle_compra" Member="detalle_compras">
+    <Type Name="detalle_compra">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="precio" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="insumo_detalle_compra" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+      <Association Name="compra_detalle_compra" Member="compra" ThisKey="cod_compra" OtherKey="cod_compra" Type="compra" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.guiaCliente" Member="guiaClientes">
+    <Type Name="guiaCliente">
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="persona_recepcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Association Name="guiaCliente_detalleGuia" Member="detalleGuias" ThisKey="numeroguia" OtherKey="numeroguia" Type="detalleGuia" />
+      <Association Name="guiaCliente_Guia_PTerminado" Member="Guia_PTerminados" ThisKey="numeroguia" OtherKey="numguia" Type="Guia_PTerminado" />
+      <Association Name="almacen_guiaCliente" Member="almacen" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+      <Association Name="cliente_guiaCliente" Member="cliente" ThisKey="ruc" OtherKey="ruc" Type="cliente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.insumos" Member="insumos">
+    <Type Name="insumo">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cod_unidad" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="cod_familia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="insumo_detalle_compra" Member="detalle_compras" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="detalle_compra" />
+      <Association Name="insumo_semana_insumo" Member="semana_insumos" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="semana_insumo" />
+      <Association Name="insumo_stock_almacen" Member="stock_almacens" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="stock_almacen" />
+      <Association Name="insumo_inventario_inicial" Member="inventario_inicials" ThisKey="cod_insumo" OtherKey="Cod_insumo" Type="inventario_inicial" />
+      <Association Name="insumo_detalleGuia" Member="detalleGuias" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="detalleGuia" />
+      <Association Name="insumo_ConsumoPTerminado" Member="ConsumoPTerminados" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="ConsumoPTerminado" />
+      <Association Name="insumo_Semana_Consumo_Produccion" Member="Semana_Consumo_Produccions" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="Semana_Consumo_Produccion" />
+      <Association Name="unidad_insumo" Member="unidad" ThisKey="cod_unidad" OtherKey="cod_unidad" Type="unidad" IsForeignKey="true" />
+      <Association Name="familia_insumo" Member="familia" ThisKey="cod_familia" OtherKey="cod_familia" Type="familia" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.pagos_compra" Member="pagos_compras">
+    <Type Name="pagos_compra">
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numero_pago" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="observacion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="compra_pagos_compra" Member="compra" ThisKey="cod_compra" OtherKey="cod_compra" Type="compra" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.proveedor" Member="proveedors">
+    <Type Name="proveedor">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="telefono" Type="System.String" DbType="Char(70)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="Char(70)" CanBeNull="true" />
+      <Column Name="rep_legal" Type="System.String" DbType="Char(70)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="Char(70)" CanBeNull="true" />
+      <Association Name="proveedor_compra" Member="compras" ThisKey="ruc" OtherKey="ruc" Type="compra" />
+    </Type>
+  </Table>
+  <Table Name="dbo.semana_insumo" Member="semana_insumos">
+    <Type Name="semana_insumo">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="saldo_inicial" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="entrega" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="consumo_produccion" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="saldo_final" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="almacen_semana_insumo" Member="almacen" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+      <Association Name="insumo_semana_insumo" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+      <Association Name="semana_semana_insumo" Member="semana" ThisKey="cod_semana" OtherKey="cod_semana" Type="semana" IsForeignKey="true" />
+      <Association Name="cliente_semana_insumo" Member="cliente" ThisKey="ruc" OtherKey="ruc" Type="cliente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.semanas" Member="semanas">
+    <Type Name="semana">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="codalmacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="fecha_inicio" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="fecha_fin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="semana_semana_insumo" Member="semana_insumos" ThisKey="cod_semana" OtherKey="cod_semana" Type="semana_insumo" />
+      <Association Name="semana_Semana_Consumo_Produccion" Member="Semana_Consumo_Produccions" ThisKey="cod_semana,anio" OtherKey="cod_semana,anio" Type="Semana_Consumo_Produccion" />
+      <Association Name="almacen_semana" Member="almacen" ThisKey="codalmacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stock_almacen" Member="stock_almacens">
+    <Type Name="stock_almacen">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="almacen_stock_almacen" Member="almacen" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+      <Association Name="insumo_stock_almacen" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.unidad" Member="unidads">
+    <Type Name="unidad">
+      <Column Name="cod_unidad" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="uni_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Association Name="unidad_insumo" Member="insumos" ThisKey="cod_unidad" OtherKey="cod_unidad" Type="insumo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.familia" Member="familias">
+    <Type Name="familia">
+      <Column Name="cod_familia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="fam_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Association Name="familia_insumo" Member="insumos" ThisKey="cod_familia" OtherKey="cod_familia" Type="insumo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.usuarios" Member="usuarios">
+    <Type Name="usuario">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="loggin" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pass" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="nombres" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="apellidos" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cambio_moneda" Member="Cambio_monedas">
+    <Type Name="Cambio_moneda">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Fecha_Cambio" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Compra" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Gastos_Compra" Member="Gastos_Compras">
+    <Type Name="Gastos_Compra">
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cuenta" Type="System.String" DbType="VarChar(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Precio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Association Name="compra_Gastos_Compra" Member="compra" ThisKey="cod_compra" OtherKey="cod_compra" Type="compra" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.inventario_inicial" Member="inventario_inicials">
+    <Type Name="inventario_inicial">
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cant_actual" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="costoinicial" Type="System.Decimal" DbType="Decimal(9,5)" CanBeNull="true" />
+      <Association Name="almacen_inventario_inicial" Member="almacen" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+      <Association Name="insumo_inventario_inicial" Member="insumo" ThisKey="Cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.detalleGuia" Member="detalleGuias">
+    <Type Name="detalleGuia">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="guiaCliente_detalleGuia" Member="guiaCliente" ThisKey="numeroguia" OtherKey="numeroguia" Type="guiaCliente" IsForeignKey="true" />
+      <Association Name="insumo_detalleGuia" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.compras" Member="compras">
+    <Type Name="compra">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numero" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="fecha_emision" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="forma_pago" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="fecha_vencimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="valor_venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="impuesto" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="tipodecambio" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="moneda" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="compraoventa" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="compra_detalle_compra" Member="detalle_compras" ThisKey="cod_compra" OtherKey="cod_compra" Type="detalle_compra" />
+      <Association Name="compra_pagos_compra" Member="pagos_compras" ThisKey="cod_compra" OtherKey="cod_compra" Type="pagos_compra" />
+      <Association Name="compra_Gastos_Compra" Member="Gastos_Compras" ThisKey="cod_compra" OtherKey="cod_compra" Type="Gastos_Compra" />
+      <Association Name="almacen_compra" Member="almacen" ThisKey="cod_almacen" OtherKey="cod_almacen" Type="almacen" IsForeignKey="true" />
+      <Association Name="proveedor_compra" Member="proveedor" ThisKey="ruc" OtherKey="ruc" Type="proveedor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.cliente" Member="clientes">
+    <Type Name="cliente">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="telefono" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="correo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="rep_legal" Type="System.String" DbType="Char(80)" CanBeNull="true" />
+      <Association Name="cliente_guiaCliente" Member="guiaClientes" ThisKey="ruc" OtherKey="ruc" Type="guiaCliente" />
+      <Association Name="cliente_semana_insumo" Member="semana_insumos" ThisKey="ruc" OtherKey="ruc" Type="semana_insumo" />
+      <Association Name="cliente_Semana_Consumo_Produccion" Member="Semana_Consumo_Produccions" ThisKey="ruc" OtherKey="ruc" Type="Semana_Consumo_Produccion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PTerminado" Member="PTerminados">
+    <Type Name="PTerminado">
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="PTerminado_ConsumoPTerminado" Member="ConsumoPTerminados" ThisKey="codigoPT" OtherKey="codigoPT" Type="ConsumoPTerminado" />
+      <Association Name="PTerminado_Guia_PTerminado" Member="Guia_PTerminados" ThisKey="codigoPT" OtherKey="codigoPT" Type="Guia_PTerminado" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ConsumoPTerminado" Member="ConsumoPTerminados">
+    <Type Name="ConsumoPTerminado">
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="tipo" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="insumo_ConsumoPTerminado" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+      <Association Name="PTerminado_ConsumoPTerminado" Member="PTerminado" ThisKey="codigoPT" OtherKey="codigoPT" Type="PTerminado" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Semana_Produccion_Insumo" Member="Semana_Produccion_Insumos">
+    <Type Name="Semana_Produccion_Insumo">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidadConsumo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidadConsumoReal" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lineaPT" Member="lineaPTs">
+    <Type Name="lineaPT">
+      <Column Name="cod_linea" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Guia_PTerminado" Member="Guia_PTerminados">
+    <Type Name="Guia_PTerminado">
+      <Column Name="numguia" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidadCajas" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="paletiz" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="guiaCliente_Guia_PTerminado" Member="guiaCliente" ThisKey="numguia" OtherKey="numeroguia" Type="guiaCliente" IsForeignKey="true" />
+      <Association Name="PTerminado_Guia_PTerminado" Member="PTerminado" ThisKey="codigoPT" OtherKey="codigoPT" Type="PTerminado" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Semana_Consumo_Produccion" Member="Semana_Consumo_Produccions">
+    <Type Name="Semana_Consumo_Produccion">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Consumo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="ConsumoReal" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Association Name="cliente_Semana_Consumo_Produccion" Member="cliente" ThisKey="ruc" OtherKey="ruc" Type="cliente" IsForeignKey="true" />
+      <Association Name="insumo_Semana_Consumo_Produccion" Member="insumo" ThisKey="cod_insumo" OtherKey="cod_insumo" Type="insumo" IsForeignKey="true" />
+      <Association Name="semana_Semana_Consumo_Produccion" Member="semana" ThisKey="cod_semana,anio" OtherKey="cod_semana,anio" Type="semana" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.pa_ActualizarCompra" Method="pa_ActualizarCompra">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="numero" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="fecha_emision" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="fecha_vencimiento" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="valor_venta" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="observacion" Type="System.String" DbType="Text" />
+    <Parameter Name="cod_almacen" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="impuesto" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ActualizarDetalleCompra" Method="pa_ActualizarDetalleCompra">
+    <Parameter Name="idcompra" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codins" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="precio" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="cantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="observacion" Type="System.String" DbType="Text" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ActualizarGuia" Method="pa_ActualizarGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="observacion" Type="System.String" DbType="Text" />
+    <Parameter Name="personarecep" Type="System.String" DbType="Text" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_agreagarInsumoDetalleCompra" Method="pa_agreagarInsumoDetalleCompra">
+    <Parameter Name="codIns" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="codCom" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="precio" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="cant" Type="System.Double" DbType="Float" />
+    <Parameter Name="total" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="observ" Type="System.String" DbType="Text" />
+    <Parameter Name="codAlmacen" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_agreagarInsumoDetalleCompraResult">
+      <Column Name="" Member="Column1" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_buscarcompra" Method="pa_buscarcompra">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_buscarcompraResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="numero" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_emision" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="valor_venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="impuesto" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_buscarGuiaCliente" Method="pa_buscarGuiaCliente">
+    <Parameter Name="numGuia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_buscarGuiaClienteResult">
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="persona_recepcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_consultarStock" Method="pa_consultarStock">
+    <Parameter Name="codInsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="codAlmacen" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_consultarStockResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_buscarSemana" Method="pa_buscarSemana">
+    <Parameter Name="codigo" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_buscarSemanaResult">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="codalmacen" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_inicio" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="fecha_fin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_eliminarcompra" Method="pa_eliminarcompra">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_eliminarGuiaCliente" Method="pa_eliminarGuiaCliente">
+    <Parameter Name="numGuia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codAlma" Type="System.String" DbType="Char(2)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_insertarUsuarios" Method="pa_insertarUsuarios">
+    <Parameter Name="log" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="pas" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="name" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="ape" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="email" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="phone" Type="System.String" DbType="Char(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listaEntregaInsumo" Method="pa_listaEntregaInsumo">
+    <Parameter Name="numGuia" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_listaEntregaInsumoResult">
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cod_unidad" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listaguiacliente" Method="pa_listaguiacliente">
+    <Parameter Name="codAlm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_listaguiaclienteResult">
+      <Column Name="fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="persona_recepcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_registrarAlmacen" Method="pa_registrarAlmacen">
+    <Parameter Name="codAlmac" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="desAlmac" Type="System.String" DbType="Char(80)" />
+    <Parameter Name="dirAlmac" Type="System.String" DbType="Char(80)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_registrarClientes" Method="pa_registrarClientes">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="razon_soc" Type="System.String" DbType="Text" />
+    <Parameter Name="direccion" Type="System.String" DbType="Text" />
+    <Parameter Name="telefono" Type="System.String" DbType="Text" />
+    <Parameter Name="email" Type="System.String" DbType="Text" />
+    <Parameter Name="rep_legal" Type="System.String" DbType="Text" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_registrarInsumos" Method="pa_registrarInsumos">
+    <Parameter Name="codInsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="nombre_ins" Type="System.String" DbType="NChar(100)" />
+    <Parameter Name="codUni" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codFam" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_RetornaGuiaPorNumeroGuia" Method="pa_RetornaGuiaPorNumeroGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codAlm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_RetornaGuiaPorNumeroGuiaResult">
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="persona_recepcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarInsumos" Method="pa_listarInsumos">
+    <ElementType Name="pa_listarInsumosResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="uni_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="fam_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RetornaUnDetallePorGuia" Method="pa_RetornaUnDetallePorGuia">
+    <Parameter Name="codins" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_RetornaUnDetallePorGuiaResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ActualizarDetalleGuia" Method="pa_ActualizarDetalleGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codinsu" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_buscarDetalleGuia" Method="pa_buscarDetalleGuia">
+    <Parameter Name="numGuia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codIns" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_buscarDetalleGuiaResult">
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_eliminarDetalleGuia" Method="pa_eliminarDetalleGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codInsu" Type="System.String" DbType="Char(7)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listarInsumoConStock" Method="pa_listarInsumoConStock">
+    <Parameter Name="codAlm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_listarInsumoConStockResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarCompras" Method="pa_ListarCompras">
+    <Parameter Name="codalmacen" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_ListarComprasResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="forma_pago" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="numero" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_emision" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="fecha_vencimiento" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="valor_venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="impuesto" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_filtrarCliente" Method="pa_filtrarCliente">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_filtrarClienteResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="telefono" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="correo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="rep_legal" Type="System.String" DbType="Char(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarInventarioInicial" Method="pa_ListarInventarioInicial">
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_ListarInventarioInicialResult">
+      <Column Name="cod_almacen" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cant_actual" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="costoinicial" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_actualizarCliente" Method="pa_actualizarCliente">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="raz_social" Type="System.String" DbType="Text" />
+    <Parameter Name="dire" Type="System.String" DbType="Text" />
+    <Parameter Name="telef" Type="System.String" DbType="Text" />
+    <Parameter Name="email" Type="System.String" DbType="Text" />
+    <Parameter Name="rep_legal" Type="System.String" DbType="Char(80)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listarusuarios" Method="pa_listarusuarios">
+    <ElementType Name="pa_listarusuariosResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="loggin" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="pass" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="nombres" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="apellidos" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_buscarUsuario" Method="pa_buscarUsuario">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_buscarUsuarioResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="loggin" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="pass" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="nombres" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="apellidos" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="Char(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_actualizarUsuario" Method="pa_actualizarUsuario">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="login" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="pass" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="nombres" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="apellidos" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="email" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="telef" Type="System.String" DbType="Char(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_eliminarUsuario" Method="pa_eliminarUsuario">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ExisteCompraGuia" Method="pa_ExisteCompraGuia">
+    <Parameter Name="numero" Type="System.String" DbType="Char(11)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_ExisteCompraGuiaResult">
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_registrarProveedor" Method="pa_registrarProveedor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="raz_social" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="telefono" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="fax" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="rep_legal" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="email" Type="System.String" DbType="NVarChar(70)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listarProveedores" Method="pa_listarProveedores">
+    <ElementType Name="pa_listarProveedoresResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="rep_legal" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_updateProveedor" Method="pa_updateProveedor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="raz_social" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="telef" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="fax" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="rep_legal" Type="System.String" DbType="NVarChar(70)" />
+    <Parameter Name="email" Type="System.String" DbType="NVarChar(70)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_eliminarProveedor" Method="pa_eliminarProveedor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_buscarProveedor" Method="pa_buscarProveedor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_buscarProveedorResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="rep_legal" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarCotizacion" Method="pa_listarCotizacion">
+    <ElementType Name="pa_listarCotizacionResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha_Cambio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Compra" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_insertarNewCotizacion" Method="pa_insertarNewCotizacion">
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="comp" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="vent" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_retornarTipoCambio" Method="pa_retornarTipoCambio">
+    <Parameter Name="FECHA" Parameter="fECHA" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="pa_retornarTipoCambioResult">
+      <Column Name="Fecha_Cambio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Compra" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_BuscartipoCambio" Method="pa_BuscartipoCambio">
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="pa_BuscartipoCambioResult">
+      <Column Name="Fecha_Cambio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Compra" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Venta" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_updateCotizacionDolar" Method="pa_updateCotizacionDolar">
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="compra" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="venta" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ListarGastosCompraPorCompra" Method="pa_ListarGastosCompraPorCompra">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_ListarGastosCompraPorCompraResult">
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cuenta" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Precio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarGastosCompras" Method="pa_listarGastosCompras">
+    <Parameter Name="codAlmac" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_listarGastosComprasResult">
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cuenta" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Precio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_InsertarGastosCompra" Method="pa_InsertarGastosCompra">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="cuenta" Type="System.String" DbType="VarChar(8)" />
+    <Parameter Name="descrip" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="cantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="precio" Type="System.Decimal" DbType="Decimal(18,3)" />
+    <Parameter Name="total" Type="System.Decimal" DbType="Decimal(18,3)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_busrcarGastosCompras" Method="pa_busrcarGastosCompras">
+    <Parameter Name="codCompra" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="cuenta" Type="System.String" DbType="VarChar(8)" />
+    <ElementType Name="pa_busrcarGastosComprasResult">
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cuenta" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Precio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="Total" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_eliminarGastosCompras" Method="pa_eliminarGastosCompras">
+    <Parameter Name="codCompra" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="cuenta" Type="System.String" DbType="VarChar(8)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_editarGastosCompras" Method="pa_editarGastosCompras">
+    <Parameter Name="codCompra" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="cuenta" Type="System.String" DbType="VarChar(8)" />
+    <Parameter Name="descrip" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="cant" Type="System.Double" DbType="Float" />
+    <Parameter Name="precio" Type="System.Decimal" DbType="Decimal(18,3)" />
+    <Parameter Name="total" Type="System.Decimal" DbType="Decimal(18,3)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_AsignarCostosAdicionales" Method="pa_AsignarCostosAdicionales">
+    <Parameter Name="idcompra" Type="System.Int32" DbType="Int" />
+    <Parameter Name="totalgc" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <ElementType Name="pa_AsignarCostosAdicionalesResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="precio" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistrarInsumoInventarioInicial" Method="pa_RegistrarInsumoInventarioInicial">
+    <Parameter Name="codinsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="cantact" Type="System.Double" DbType="Float" />
+    <Parameter Name="costoinicial" Type="System.Decimal" DbType="Decimal(9,5)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listaSctockClienteXProductor" Method="pa_listaSctockClienteXProductor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_listaSctockClienteXProductorResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(10,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarClientes" Method="pa_listarClientes">
+    <ElementType Name="pa_listarClientesResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="telefono" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="correo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="rep_legal" Type="System.String" DbType="Char(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistrarStockClienteInic" Method="pa_RegistrarStockClienteInic">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codinsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="costo" Type="System.Decimal" DbType="Decimal(10,6)" />
+    <ElementType Name="pa_RegistrarStockClienteInicResult">
+      <Column Name="resultado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_insertarCompraoVentaRC" Method="pa_insertarCompraoVentaRC">
+    <Parameter Name="numer" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="fechaem" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="formapago" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="fechavenc" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="valor_venta" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="impuesto" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="observacion" Type="System.String" DbType="Text" />
+    <Parameter Name="cod_almacen" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="tipodecambio" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="moneda" Type="System.Int32" DbType="Int" />
+    <Parameter Name="compoventa" Type="System.Int16" DbType="SmallInt" />
+    <ElementType Name="pa_insertarCompraoVentaRCResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarDetalleGuia" Method="pa_listarDetalleGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codAlmac" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_listarDetalleGuiaResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="uni_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="numeroguia" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="costoinicial" Type="System.Decimal" DbType="Decimal(9,5)" CanBeNull="true" />
+      <Column Name="total" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RetornaTotales" Method="pa_RetornaTotales">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_RetornaTotalesResult">
+      <Column Name="totalinsumos" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="totalgastoscompra" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ExisteGuiaProductor" Method="pa_ExisteGuiaProductor">
+    <Parameter Name="numg" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="Fech" Parameter="fech" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="salidaodevol" Type="System.Int16" DbType="SmallInt" />
+    <ElementType Name="pa_ExisteGuiaProductorResult">
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="rucexiste" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fechavalida" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="razonsocial" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="coddevolgenerado" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_AgregarInsumoaGuia" Method="pa_AgregarInsumoaGuia">
+    <Parameter Name="codInsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="numGuia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="cant" Type="System.Double" DbType="Float" />
+    <Parameter Name="Fech" Parameter="fech" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pesonaRec" Type="System.String" DbType="Text" />
+    <Parameter Name="observ" Type="System.String" DbType="Text" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="sod" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_AgregarInsumoaGuiaResult">
+      <Column Name="respuesta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistrarInsumosCompraoVenta" Method="pa_RegistrarInsumosCompraoVenta">
+    <Parameter Name="idcompra" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codIns" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="precio" Type="System.Decimal" DbType="Decimal(15,6)" />
+    <Parameter Name="cant" Type="System.Decimal" DbType="Decimal(15,6)" />
+    <Parameter Name="observ" Type="System.String" DbType="Text" />
+    <Parameter Name="cod_almacen" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_RegistrarInsumosCompraoVentaResult">
+      <Column Name="siseregistro" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_SoloAgregarInsumoaGuia" Method="pa_SoloAgregarInsumoaGuia">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codinsum" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cant" Type="System.Double" DbType="Float" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listaCodigoPterminado" Method="pa_listaCodigoPterminado">
+    <ElementType Name="pa_listaCodigoPterminadoResult">
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ExistePTsegunDescrip" Method="pa_ExistePTsegunDescrip">
+    <Parameter Name="descrip" Type="System.String" DbType="NVarChar(100)" />
+    <ElementType Name="pa_ExistePTsegunDescripResult">
+      <Column Name="existe" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListInsumosProdTerminado" Method="pa_ListInsumosProdTerminado">
+    <Parameter Name="codigo" Type="System.String" DbType="NVarChar(5)" />
+    <ElementType Name="pa_ListInsumosProdTerminadoResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistrarProductoTerminado" Method="pa_RegistrarProductoTerminado">
+    <Parameter Name="descripcion" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="codinsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cant" Type="System.Decimal" DbType="Decimal(18,6)" />
+    <Parameter Name="tipo" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_RegistrarProductoTerminadoResult">
+      <Column Name="codPTerm" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_SoloRegistrarInsumoProdTerm" Method="pa_SoloRegistrarInsumoProdTerm">
+    <Parameter Name="codigo" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="codinsu" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cant" Type="System.Decimal" DbType="Decimal(18,6)" />
+    <Parameter Name="tipo" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listaTiposProdTerminado" Method="pa_listaTiposProdTerminado">
+    <ElementType Name="pa_listaTiposProdTerminadoResult">
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_CerrarSemana" Method="pa_CerrarSemana">
+    <Parameter Name="codSem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_activarSemana" Method="pa_activarSemana">
+    <Parameter Name="codSem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_activarSemanaResult">
+      <Column Name="respuesta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListaDeFechasSemProducc" Method="pa_ListaDeFechasSemProducc">
+    <Parameter Name="codigoPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_ListaDeFechasSemProduccResult">
+      <Column Name="fecha" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RetornaAnioCodSem" Method="pa_RetornaAnioCodSem">
+    <Parameter Name="fecha" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="pa_RetornaAnioCodSemResult">
+      <Column Name="codseman" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="aniio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_registrarSemanas" Method="pa_registrarSemanas">
+    <Parameter Name="codSem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="fech_inicio" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="fech_fin" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="observ" Type="System.String" DbType="Text" />
+    <Parameter Name="estado" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_SemanaPorCerrar" Method="pa_SemanaPorCerrar">
+    <ElementType Name="pa_SemanaPorCerrarResult">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_inicio" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="fecha_fin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_SemanaPorActivar" Method="pa_SemanaPorActivar">
+    <ElementType Name="pa_SemanaPorActivarResult">
+      <Column Name="cod_semana" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="anio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_inicio" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="fecha_fin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="estado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_stockActualProductor" Method="pa_stockActualProductor">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_stockActualProductorResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_regSemanaInsumoProduccion" Method="pa_regSemanaInsumoProduccion">
+    <Parameter Name="codSema" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codPT" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="cant" Type="System.Int32" DbType="Int" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="paletizado" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ActualizarConsumoRealProduccion" Method="pa_ActualizarConsumoRealProduccion">
+    <Parameter Name="codins" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codpt" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="cantactual" Type="System.Decimal" DbType="Decimal(18,6)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ListarSemanaProduccionNroCajas" Method="pa_ListarSemanaProduccionNroCajas">
+    <Parameter Name="codigoPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_ListarSemanaProduccionNroCajasResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CantidadCajas" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarDetalleProdTerm" Method="pa_listarDetalleProdTerm">
+    <Parameter Name="codPT" Type="System.String" DbType="NVarChar(5)" />
+    <ElementType Name="pa_listarDetalleProdTermResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RetornaUltimaFecha" Method="pa_RetornaUltimaFecha">
+    <ElementType Name="pa_RetornaUltimaFechaResult">
+      <Column Name="existe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fechaInic" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="FechaFinal" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_MovimientosAlmacen" Method="pa_MovimientosAlmacen">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_MovimientosAlmacenResult">
+      <Column Name="existe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegGuiaTrasladoAlmacen" Method="pa_RegGuiaTrasladoAlmacen">
+    <Parameter Name="codalmEm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codalmRe" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codinsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="cantidad" Type="System.Double" DbType="Float" />
+    <ElementType Name="pa_RegGuiaTrasladoAlmacenResult">
+      <Column Name="excede" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="inserto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarInsumGuiaTrasAlm" Method="pa_listarInsumGuiaTrasAlm">
+    <Parameter Name="numg" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_listarInsumGuiaTrasAlmResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarSemanaProduccionInsumo" Method="pa_ListarSemanaProduccionInsumo">
+    <Parameter Name="codPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_ListarSemanaProduccionInsumoResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidadConsumo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidadConsumoReal" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarPorPaletizar" Method="pa_ListarPorPaletizar">
+    <Parameter Name="codPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="sem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_ListarPorPaletizarResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="codigoPT" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidadConsumo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidadConsumoReal" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_buscarClientes" Method="pa_buscarClientes">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_buscarClientesResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="telefono" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="correo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="rep_legal" Type="System.String" DbType="Char(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_eliminarClientes" Method="pa_eliminarClientes">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_buscaDetalleCompra" Method="pa_buscaDetalleCompra">
+    <Parameter Name="codalma" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codIns" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_buscaDetalleCompraResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="precio" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_eliminarDetalleCompra" Method="pa_eliminarDetalleCompra">
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codIns" Type="System.String" DbType="VarChar(7)" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_listarDetalleCompras" Method="pa_listarDetalleCompras">
+    <Parameter Name="codalma" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_listarDetalleComprasResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="uni_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="precio" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarSemanaConsumoProduccion" Method="pa_ListarSemanaConsumoProduccion">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_ListarSemanaConsumoProduccionResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Consumo" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+      <Column Name="ConsumoReal" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_listarProdTipoProduccion" Method="pa_listarProdTipoProduccion">
+    <Parameter Name="codTP" Type="System.String" DbType="NVarChar(5)" />
+    <ElementType Name="pa_listarProdTipoProduccionResult">
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="uni_des" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(18,6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ActualizarSemanaConsumProducc" Method="pa_ActualizarSemanaConsumProducc">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codinsumo" Type="System.String" DbType="Char(7)" />
+    <Parameter Name="consreal" Type="System.Decimal" DbType="Decimal(18,6)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_consultarStockSemana" Method="pa_consultarStockSemana">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="sem" Type="System.String" DbType="Char(2)" />
+    <ElementType Name="pa_consultarStockSemanaResult">
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="saldo_inicial" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="entrega" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="consumo_produccion" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="saldoFin" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ExistGuiaProductorSinVal" Method="pa_ExistGuiaProductorSinVal">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_ExistGuiaProductorSinValResult">
+      <Column Name="existe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistraGuiaPTerminado" Method="pa_RegistraGuiaPTerminado">
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="numguia" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="fech" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="obs" Type="System.String" DbType="Text" />
+    <Parameter Name="persrecep" Type="System.String" DbType="Text" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="cantcaj" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pal" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_RegistraGuiaPTerminadoResult">
+      <Column Name="inserto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistraGuiaPTerminado2" Method="pa_RegistraGuiaPTerminado2">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="codpt" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="cantcaj" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pal" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_RegistraGuiaPTerminado2Result">
+      <Column Name="inserto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_AlcanzaStockCliente" Method="pa_AlcanzaStockCliente">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codpt" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="numcajas" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tipo" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_AlcanzaStockClienteResult">
+      <Column Name="codinsumo" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="falta" Type="System.Decimal" DbType="Decimal(19,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_InsertarDetalleGuiaProductorv2" Method="pa_InsertarDetalleGuiaProductorv2">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <Parameter Name="codpt" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="numcajas" Type="System.Int32" DbType="Int" />
+    <Parameter Name="palet" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_ListarDetalleGuiav2" Method="pa_ListarDetalleGuiav2">
+    <Parameter Name="numguia" Type="System.String" DbType="Char(20)" />
+    <ElementType Name="pa_ListarDetalleGuiav2Result">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_reportarMermas" Method="pa_reportarMermas">
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <ElementType Name="pa_reportarMermasResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="merma" Type="System.Decimal" DbType="Decimal(19,6)" CanBeNull="true" />
+      <Column Name="costo" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_AlcanzaStockAlmacen" Method="pa_AlcanzaStockAlmacen">
+    <Parameter Name="codpt" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="ncajas" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tipo" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_AlcanzaStockAlmacenResult">
+      <Column Name="codinsumo" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="falta" Type="System.Decimal" DbType="Decimal(19,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_CerrarProduccion" Method="pa_CerrarProduccion">
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pa_DetalleCompraPorEditar" Method="pa_DetalleCompraPorEditar">
+    <Parameter Name="codalma" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="codins" Type="System.String" DbType="Char(7)" />
+    <ElementType Name="pa_DetalleCompraPorEditarResult">
+      <Column Name="cod_insumo" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_insumo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="cantidad" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="precio" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(15,6)" CanBeNull="true" />
+      <Column Name="observacion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="cod_compra" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_ListarClientProduccAbierta" Method="pa_ListarClientProduccAbierta">
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_ListarClientProduccAbiertaResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_VerificarCierreProduccion" Method="pa_VerificarCierreProduccion">
+    <Parameter Name="codsem" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="anio" Type="System.Int32" DbType="Int" />
+    <ElementType Name="pa_VerificarCierreProduccionResult">
+      <Column Name="ruc" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="razon_social" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pa_RegistraGuiaPTerminadok" Method="pa_RegistraGuiaPTerminadok">
+    <Parameter Name="codalm" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="numguia" Type="System.String" DbType="Char(30)" />
+    <Parameter Name="fech" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="obs" Type="System.String" DbType="Text" />
+    <Parameter Name="persrecep" Type="System.String" DbType="Text" />
+    <Parameter Name="ruc" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="codPT" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="cantcaj" Type="System.Int32" DbType="Int" />
+    <Parameter Name="fechaTraslado" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="puntopartida" Type="System.String" DbType="Text" />
+    <Parameter Name="puntollegada" Type="System.String" DbType="Text" />
+    <Parameter Name="razsocangeles" Type="System.String" DbType="Text" />
+    <Parameter Name="destinatario" Type="System.String" DbType="Text" />
+    <Parameter Name="ruc_cliente" Type="System.String" DbType="Char(13)" />
+    <Parameter Name="conf_vehic" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="cert_mtc" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="licencia" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="otro_tipo_doc" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="salida" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="codalmarecep" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="pal" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="pa_RegistraGuiaPTerminadokResult">
+      <Column Name="inserto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

@@ -1,0 +1,79 @@
+﻿@model almacen.Models.usuario
+@{
+    ViewBag.Title = "Editar";
+}
+@if (Model != null && Session["Username"] != null)
+{
+    <header class="page-header">
+        <center><h3>Editar Usuario</h3></center>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2 formulario">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset>
+                        <form class="form-inline">
+                            <legend>Datos de Usuario <li class="fa fa-user-circle-o fa-1x"></li></legend>
+                            <div class="col-md-2">
+                                <label>Login</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.loggin, new { @class = " form-control" })@Html.HiddenFor(model => model.loggin)
+                            </div>
+                            <div class="col-md-2">
+                                <label>Password</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.pass, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Nombres</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.nombres, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Apellidos</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.apellidos, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Correo</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.correo, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label>Telefono</label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.telefono, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="form-group"></div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-success fa fa-floppy-o"> Guardar</button>
+                                <a href="~/Usuarios/ListarUsuarios" class="btn btn-success fa fa-arrow-left"> Volver</a>
+                            </div>
+                        </form>
+                    </fieldset>
+                }
+            </div>
+            <div class="pull-right">
+                @* <img src="/Images/clientes.jpg" alt="clintes"width="300" height="400"/>*@
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("/Home/Login", "_self");
+    </script>
+}
+

@@ -1,0 +1,5 @@
+SERVERPC
+sa
+ServerSgAdmin99
+ALMACENBD
+

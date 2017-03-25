@@ -1,0 +1,89 @@
+﻿@model almacen.Models.ClienteStockModel
+
+@{
+    ViewBag.Title = "Stock Ciente";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm("StockCliente", "Clientes", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <header class="page-header">
+            <center><h3>Consultar Stock de cliente Productor</h3></center>
+        </header>
+        <div class="container formulario">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--formulario detalle cliente-->
+                    <form class="form-inline" name="formcliente">
+                        <legend>
+                            Detalle de Stock<a href="~/ClienteStock/StockclienteInic" class="btn btn-info pull-right"> <i class="fa fa-folder-o fa-1x" aria-hidden="true"></i> Agregar Stock Inicial</a>
+                        </legend>
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.ruc, Model.listaclientes, "Seleccione un cliente--", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model=>model.codsem, Model.listdropcodsemanas, "Selecione semana--", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-success" name="buscar" id="idBuscar">
+                                Buscar
+                                <span class="fa fa-search"></span>
+                            </button>
+                       </div>
+                            <div class="">
+                                <small>
+                                    @Html.Raw(Model.msjerror)
+                                </small>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group"></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group"></div>
+                            </div>
+
+                            <table class="table table-bordered">
+                                <tr class="btn-success">
+                                    <td><strong>Insumo</strong></td>
+
+                                    <td><strong>Saldo Inicial</strong></td>
+
+                                    <td><strong>Entrega</strong></td>
+
+                                    <td><strong>Cosumo</strong></td>
+
+                                    <td><strong>Saldo total</strong></td>
+                                </tr>
+                                <tbody>
+                                    @foreach (var item in Model.listastockbysemana)
+                                    {
+                                        <tr class="text-justify">
+                                            <td class="">@Html.DisplayFor(modelItem => item[0])</td>
+                                            <td class="">@Html.DisplayFor(modelItem => item[1])</td>
+                                            <td class="">@Html.DisplayFor(modelItem => item[2])</td>
+                                            <td class="">@Html.DisplayFor(modelItem => item[3])</td>
+                                            <td class="">@Html.DisplayFor(modelItem => item[4])</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+</form>   <!--close formulario detalle cliente-->
+                </div>
+            </div>
+        </div>
+
+    }
+    <div class="form-group"></div>
+ 
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

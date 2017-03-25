@@ -1,0 +1,68 @@
+﻿@model  IEnumerable<almacen.Models.detalleCompraModel>
+@{
+    ViewBag.Title = "Detalle de Compra";
+}
+
+@Scripts.Render("~/Content/js/formulario.js")
+@Scripts.Render("~/bundles/modernizr")
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Detalle de Compra</h3></center>
+    </header>
+    <div class="container">
+
+        <div class="col-md-12 formulario">
+
+            <table class="table table-bordered table-condensed">
+              <legend>Insumos<div class=" pull-right"><a href="~/Insumos/compras" class="btn btn-success"><li class="fa fa-arrow-left">volver</li></a></div>
+
+              </legend>
+                <thead class="text-center">
+                    <tr class="btn-success">    
+                        <td><strong>Nombre de Insumo</strong></td>
+                        <td><strong>Precio</strong></td>
+                        <td><strong>Cantidad</strong></td>
+                        <td><strong>Total</strong></td>
+                        <td><strong>Observacion</strong></td>
+                        <td><strong>Mantenimiento</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td>@obj.insumo</td>
+                            <td>@obj.precio</td>
+                            <td>@obj.cantidad</td>
+                            <td>@obj.total</td>
+                            <td>@obj.Observacion</td>
+
+                            <td class="text-center">
+                                <span class="fa fa-pencil btn btn-success btn btn-sm">
+
+                                    @Html.ActionLink("Editar", "editarDetalleCompras", new { id = obj.codinsumo.Trim() + "a" + obj.idcompra })
+
+                                </span>
+                                <span class="fa fa-trash btn btn-danger btn btn-sm">
+
+                                    @Html.ActionLink("Eliminar", "DeleteDetalle", new { id = obj.codinsumo.Trim() + "b" + obj.idcompra })
+
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+           </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

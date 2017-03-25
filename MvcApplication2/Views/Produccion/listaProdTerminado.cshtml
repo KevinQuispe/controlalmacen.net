@@ -1,0 +1,37 @@
+﻿@model IEnumerable<almacen.Models.PTerminado>
+
+@{
+    ViewBag.Title = "listaProdTerminado";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+
+<header class="page-header"><h3 class="text-center"><i class="fa fa-list" aria-hidden="true"></i> Lista de tipo de producto terminado</h3></header>
+
+<div class="container">
+    <div class="col-md-12 formulario">
+        <table class="table table-bordered table-condensed">
+            <legend>Datos de Producto Terminado <a href="~/Produccion/regProdTerminado" class="btn btn-success pull-right" >Nuevo</a></legend>
+            <tr class="text-center btn-success">
+                <th class="text-center">
+                    <strong>Codigo</strong>
+                </th>
+                <th class="text-center"><strong>Descripcion</strong></th>
+                <th class="text-center"><strong>Opciones</strong></th>
+            </tr>
+            @foreach (var item in Model)
+            {            
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.codigoPT)</td>
+                <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+                
+                <td  class="text-center">
+                <a href="~/Produccion/listadetalleProdTerm/@item.codigoPT" title="Detalle" class="btn btn-warning btn btn-sm">
+                    Detalle <span class="fa fa-eye fa-1x"></span>
+                </a>
+          
+              </td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@model almacen.Models.SemanaModel
+@{
+    ViewBag.Title = "Cerrar semana |";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm("cerrarsemana", "Semanas", FormMethod.Post))
+    {
+        <header class="page-header"><center><h3>Cerrar Semana</h3></center></header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 formulario">
+                    <fieldset>
+                        <form class="form-horizontal">
+                            <legend>Datos de Semana</legend>
+                            <div class="col-md-6">
+                                <label>CodSemana</label>
+                                @Html.TextBoxFor(s => s.codsemana, new { @class = "form-control", @disabled = "disabled" })
+                                @Html.HiddenFor(model => model.codsemana)
+                            </div>
+                            <div class="col-md-6">
+                                <label>Año</label>
+                                @Html.TextBoxFor(s => s.anio, new { @class = "form-control", @disabled = "disabled" })
+                                @Html.HiddenFor(model => model.anio)
+                            </div>
+                            <div class="col-md-6">
+                                <label>Fecha Inicio</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    @Html.TextBoxFor(s => s.fechaI, new { @class = "form-control", @disabled = "disabled" })
+                                    @Html.HiddenFor(model => model.fechaI)
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Fecha Fin</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    @Html.TextBoxFor(s => s.fechaF, new { @class = "form-control", @disabled = "disabled" })
+                                    @Html.HiddenFor(model => model.fechaF)
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+                                @if (Model.msjrespuesta == null)
+                                {
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-danger" title="Esta seguro que quiere cerrar semana!!!">Cerrar Semana</button>
+                                        <a href="/Home/Index" class="btn btn-success">Ir a Ventana principal</a>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-12">
+                                @Html.Raw(Model.msjrespuesta)
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

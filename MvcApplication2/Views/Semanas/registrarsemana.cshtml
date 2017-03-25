@@ -1,0 +1,87 @@
+﻿@model almacen.Models.SemanaModel
+
+@{
+    ViewBag.Title = "Registrar Semanas";
+}
+@if (Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm())
+    {
+        <header class="page-header"><center><h3>Registro de semanas</h3></center></header>
+        <div class="container">
+            <div class="col-md-12 formulario">
+                <fieldset class="">
+                    <form class="form-horizontal" name="formsemanas">
+                        <legend>Registrar Semanas</legend>
+                        <div class="col-md-6">
+                            <label>Codigo Semana</label>
+                            @Html.TextBoxFor(s => s.codsemana, new { @class = "form-control", @maxlength = "2", @placeholder = "Ingrese Codigo de semana", @required = "required", @type = "text" })
+                            @Html.ValidationMessageFor(model => model.codsemana, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            <label>Año</label>
+                            @Html.TextBoxFor(s => s.anio, new { @class = "form-control", @type = "text", @maxlength = "4", @placeholder = "Ingrese año", @step = 1, @required = "required" })
+                            @Html.ValidationMessageFor(model => model.anio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fecha Inicio (Lunes)</label>
+                            <div class="input-group date" data-provide="datepicker">
+                                @Html.TextBoxFor(s => s.fechaI, new { @placeholder = "Ingrese fecha de  Inicio", @class = "form-control", @type = "text", @required = "required", @id = "fechaI" })
+                                @Html.ValidationMessageFor(model => model.fechaI, "", new { @class = "text-danger" })@Html.HiddenFor(s => s.fechaI)
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fecha Cierre (Domingo)</label>
+                            <div class="input-group date" data-provide="datepicker">
+                                @Html.TextBoxFor(s => s.fechaF, new { @placeholder = "Ingrese fecha de cierre", @class = "form-control", @type = "text", @required = "required", @id = "fechaF" })
+                                @Html.ValidationMessageFor(model => model.fechaF, "", new { @class = "text-danger" })@Html.HiddenFor(s => s.fechaF)
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Observacion</label>
+                            @Html.TextAreaFor(s => s.observ, new { @placeholder = "Ingrese alguna observacion", @class = "form-control", @type = "textarea" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Raw(Model.msjrespuesta)
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="pull-right">
+                                <button id="btnsubmit" type="submit" value="Registrar" class="btn btn-success" onclick="clicEnRegistrar()">Registrar</button>
+                                <a href="~/Home/Index" class="btn btn-success">Ir a Ventana principal</a>
+                            </div>
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+        <script type="text/javascript">
+            @Html.Raw(Model.jvscrpt)
+            function clicEnRegistrar() {
+                document.forms[0].submit();
+                document.getElementById('btnsubmit').disabled = true;
+            }
+            $(document).ready(function ($) {
+                $("#codsemana").mask("99");
+                $("#anio").mask("9999");
+                $("#fechaI").mask("99/99/9999");
+                $("#fechaF").mask("99/99/9999");
+            });
+        </script>
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

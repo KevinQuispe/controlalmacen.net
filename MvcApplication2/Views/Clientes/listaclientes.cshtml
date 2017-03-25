@@ -1,0 +1,70 @@
+﻿@model IEnumerable<almacen.Models.cliente>
+@{
+    ViewBag.Title = "listaclientes";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Lista de Clientes Productores</h3></center>
+    </header>
+    <div class="container-fluid">
+        <div class="col-md-12 formulario">
+            <a href="~/Clientes/agregarCliente" class="btn btn-success pull-right">
+                <i class="fa fa-user-plus fa-1x"></i>Nuevo
+            </a>
+            <div class="col-md-12">
+                <div class="form-group"></div>
+            </div>
+            <table class="table table-bordered table-condensed">
+                <legend>Datos de clientes <li class="fa fa-user fa-1x"></li></legend>
+                <tr class="btn-success text-center text-justify">
+                    <th>RUC</th>
+                    <th>Razon Social</th>
+                    <th> Direccion</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th width="100px;">Rep Legal</th>                 
+                    <th class="" width="200px;">Mantenimiento</th>                                      
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr class="text-justify">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ruc)
+                        </td>
+                        <td class="text-lowercase">
+                            @Html.DisplayFor(modelItem => item.razon_social)
+                        </td>
+                        <td class="text-lowercase">
+                            @Html.DisplayFor(modelItem => item.direccion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.telefono)
+                        </td>
+                        <td class="text-lowercase">
+                            @Html.DisplayFor(modelItem => item.correo)
+                        </td>
+                        <td class="text-lowercase">
+                            @Html.DisplayFor(modelItem => item.rep_legal)
+                        </td>
+                        <td class="text-center">
+                            <a href="~/Clientes/Editar/@item.ruc.Trim()" title="Editar" class="btn btn-warning btn btn-sm">
+                                Editar <span class="fa fa-pencil fa-1x"></span>
+                            </a>
+                            <a href="~/Clientes/Delete/@item.ruc.Trim()" title="Eliminar" class="btn btn-danger btn btn-sm">
+                                Eliminar <span class="fa fa-trash fa-1x"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

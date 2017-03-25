@@ -1,0 +1,101 @@
+﻿@model almacen.Models.SemanaProduccion
+@{
+    ViewBag.Title = "semanaProducion";
+}
+
+<header class="page-header">
+    <h3><center>Consumo de Produccion</center></h3>
+</header>
+<div class="container">
+    @using (Html.BeginForm("semanaProduccion", "Produccion", FormMethod.Post))
+    {
+        <div class="col-md-12 formulario">
+            <fieldset class="has-success">
+                <form class="form-horizontal">
+                    <legend>Datos Consumo de Produccion <a href="~/Produccion/semanaProduccion" class="btn btn-success pull-right">Nuevo</a></legend>
+                    <div class="col-md-6">
+                        <label>Producto</label>
+                         @Html.DropDownListFor(model => model.prodTerminado, Model.listadropcodigoprodterm, "Seleccione produccion", new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Ruc</label>
+                        @Html.DropDownListFor(model => model.ruc, Model.listadropclientes, "Seleccione ruc de productor", new { @class = "form-control text-lowercase" })
+                        @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Semana Produccion</label>
+                        @Html.TextBoxFor(model => model.semana, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.HiddenFor(model => model.semana)
+                    </div>
+                    <div class="col-md-3">
+                        <label>Año</label>
+                        @Html.TextBoxFor(model => model.anio, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.HiddenFor(model => model.anio)
+                    </div>
+                    <div class="col-md-3">
+                        <label>Cantidad Cajas</label>
+                        @Html.TextBoxFor(model => model.cant_cajas, new { @class = "form-control", @placeholder = "Ingrese cantidad", @type = "number", @required = "required", @step = "1", @min = "0" })
+                        @Html.ValidationMessageFor(model => model.cant_cajas, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Tipo de consumo</label>
+                        @Html.DropDownListFor(model => model.paletizado, new SelectListItem[] { new SelectListItem() { Text = "Seleccion tipo de consumo", Value = "" }, new SelectListItem() { Text = "1-Paletizado", Value = "1" }, new SelectListItem() { Text = "2-No Paletizado", Value = "2" } }, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Raw(Model.msjSemProduccion)
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="submit" value="Registrar" class="btn btn-success">Registrar</button>
+                        </div>
+                    </div>
+                    @if (Model.listSemProdInsumo.Any())
+                    {
+                        <table class="table table-bordered table-condensed">
+                            <legend>Detalle Insumo</legend>
+                            <thead class="text-center">
+                                <tr class="btn-success">
+                                    <td><strong>Insumo</strong></td>
+                                    <td><strong>Nombre insumo</strong></td>
+                                    <td><strong>Cant Consumo</strong></td>
+                                    <td><strong>Cant Consumo Real</strong></td>
+                                    <td><strong>Costo</strong></td>
+                                    <td><strong>Opciones</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listSemProdInsumo)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[3])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[4])</td>
+                                        <td class="text-center">
+                                            <span class="fa fa-pencil btn btn-success btn btn-sm">
+                                                @Html.ActionLink("Editar", "EDIT")
+                                            </span>
+                                            <span class="fa fa-pencil btn btn-danger btn btn-sm">
+                                                @Html.ActionLink("Eliminar", "DELETE")
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+                </form>
+            </fieldset>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function ($) {
+                $("#fechaI").mask("99/99/9999");
+            });
+        </script>
+    }
+</div>

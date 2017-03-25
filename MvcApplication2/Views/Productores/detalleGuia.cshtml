@@ -1,0 +1,75 @@
+﻿@model  IEnumerable<almacen.Models.GuiaClienteModel>
+@{
+    ViewBag.Title = "DetalleGuia";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <head>
+        <title>Detalle de Guia</title>
+    </head>
+    <header class="page-header"><center><h3>Detalle de Guias</h3></center></header>
+    <div class="container">
+        <div class="row col-md-12 formulario">
+            <form target="_parent">
+                <a href="~/Productores/registrarguia" class="btn btn-success pull-right"><i class="fa fa-address-card fa-1x" aria-hidden="true"></i> Nueva Guía</a>
+                <table class="table table-bordered table-condensed" >
+                    <legend>Datos Guía 
+                    @*<a href="~/Produccion/reportePDF" class="btn btn-danger" title="Clck aqui para reportar en PDF" target="_blank">PDF</a>*@
+                    </legend>
+                    <thead>
+                        <tr class="btn-success">
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Número Guía</strong></td>
+                            <td><strong>Productor</strong></td>
+                            <td><strong>Recepción</strong></td>
+                            <td><strong>Observación</strong></td>
+                            <td class="text-center"><strong>Mantenimiento</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in Model)
+                        {
+                            <tr>
+                                <td>@obj.fecha</td>
+                                <td>@obj.numguia</td>
+                                <td>@obj.ruc</td>
+                                <td>@obj.persona_recepcion</td>
+                                <td>@obj.observacion</td>
+
+                                <td class="text-center">
+
+                                   
+                                    <a href="~/Productores/agregadetalle/@obj.numguia.Trim()" title="Agregar nuevo detalle" class="btn btn-primary btn btn-sm">
+                                        Agregar <i class="fa fa-plus-square-o fa-1x"></i>
+                                    </a>
+                                    <a href="~/Productores/EditGuia/@obj.numguia.Trim()" title="Editar" class="btn btn-success btn btn-sm">
+                                        Editar <span class="fa fa-pencil fa-1x"></span>
+                                    </a>
+                                    <a href="~/Productores/Detalle/@obj.numguia.Trim()" title="Detalle" class="btn btn-warning btn btn-sm">
+                                        Detalle <span class="fa fa-eye fa-1x"></span>
+                                    </a>
+                                    <a href="~/Productores/Delete/@obj.numguia.Trim()" title="Eliminar" class="btn btn-danger btn btn-sm">
+                                        Delete <span class="fa fa-trash fa-1x"></span>
+                                    </a>
+                                    <a href="@Url.Action("imprimirGuia", "Productores", new { @id = obj.numguia.Trim() })"
+                                       type="submit" id="runReport" target="_blank" class="btn btn-primary btn btn-sm">
+                                        Imprimir <i class="fa fa-print" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+
+        </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

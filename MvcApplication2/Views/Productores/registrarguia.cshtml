@@ -1,0 +1,238 @@
+﻿@model almacen.Models.ProductorModel
+@{
+    ViewBag.Title = "GuiaProductor";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header"><center><h3>Guia de Productor</h3></center></header>
+    <div class="container formulario">
+        <!--contenedor guia-->
+        <div class="form-horizontal">
+            <legend>Registrar Guía <a href="~/Productores/registrarguia" class="btn btn-success pull-right">Nuevo</a></legend>
+            @using (Html.BeginForm("registrarguia", "Productores", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="col-md-3" id="div1">
+                    <label>Número Guía</label>
+                    @Html.TextBoxFor(s => s.numGuia, new { @class = "form-control", @placeholder = "Ingrese numero guia", @maxlength = "20", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.numGuia, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha Emision</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.TextBoxFor(s => s.fecha, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaI" })
+                        @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha Inicio de Traslado</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.TextBoxFor(s => s.fechaT, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaF" })
+                        @Html.ValidationMessageFor(model => model.fechaT, "", new { @class = "text-danger" })
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de partida</label>
+                    @Html.TextBoxFor(s => s.puntopartida, new { @class = "form-control", @placeholder = "Ingrese direccion de almacen", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.puntopartida, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de llegada</label>
+                    @Html.TextBoxFor(s => s.puntollegada, new { @class = "form-control", @placeholder = "Ingrese direccion de cliente", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.puntollegada, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <label>Persona Recepción</label>
+                    @Html.TextBoxFor(s => s.personaRecep, new { @class = "form-control", @placeholder = "Ingrese persona recepcion", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.personaRecep, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label>Salida </label>
+                    @Html.DropDownListFor(s => s.salidaodevolucion, new SelectListItem[] { new SelectListItem() { Text = "Salida", Value = "1" } }, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="col-md-12">
+                    <hr class="style-fou">
+                </div>
+                <div class="col-md-6">
+                    <label>Remite</label>
+                    @Html.TextBoxFor(s => s.rznsocial, new { @class = "form-control", @placeholder = "Ingrese razon social del remitente", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.personaRecep, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC</label>
+                    @Html.TextBoxFor(s => s.ruccliente, new { @class = "form-control", @placeholder = "Ingrese ruc", @maxlength = "13" })
+                    @Html.ValidationMessageFor(model => model.ruccliente, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    <label>Destinatario</label>
+                    @Html.TextBoxFor(s => s.razondestinatario, new { @class = "form-control", @placeholder = "Ingrese razon social destinatario", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.razondestinatario, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC Cliente</label>
+                    @Html.TextBoxFor(s => s.ruc, new { @class = "form-control", @placeholder = "Ingrese ruc de cliente" })
+                    @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Otro Doc. Identidad N°</label>
+                    @Html.TextBoxFor(s => s.otrodoc, new { @class = "form-control", @placeholder = "N° documento identidad" })
+                    @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Vehiculo Marca Y Placa N°</label>
+                    @Html.TextBoxFor(s => s.marcaplacavh, new { @class = "form-control", @placeholder = "N° placa de vehiculo" })
+                    @Html.ValidationMessageFor(model => model.marcaplacavh, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Configuracion vehicular</label>
+                    @Html.TextBoxFor(s => s.confvehicular, new { @class = "form-control", @placeholder = "Configuracion vehicular" })
+                    @Html.ValidationMessageFor(model => model.confvehicular, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Cert. Ins M.T.C</label>
+                    @Html.TextBoxFor(s => s.MTC, new { @class = "form-control", @placeholder = "Ingrese Cert Insc. MTC" })
+                    @Html.ValidationMessageFor(model => model.MTC, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Licencia de conducir</label>
+                    @Html.TextBoxFor(s => s.licenciaconducir, new { @class = "form-control", @placeholder = "Ingrese Lic de Conducir" })
+                    @Html.ValidationMessageFor(model => model.licenciaconducir, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 form-group">
+                    @Html.Raw(Model.msjProductorModel)
+                </div>
+                <div class="col-md-12 ">
+                    <div class="pull-right">
+                        <button type="submit" value="Registrar" class="btn btn-success">Registrar</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+            </div>
+        </div>
+        <div class="container">
+            @if (Model.jsFormulario == "2")
+            {
+                <div class="row col-md-12">
+                    <table class="table table-bordered">
+                        <tr class="btn-success">
+                            <td><strong>N°guía</strong></td>
+                            <td><strong>RUC</strong></td>
+                            <td><strong>Razon Social</strong></td>
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Persona Recepción</strong></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.numGuia)</td>
+                            <td>@Html.DisplayFor(model => model.ruc)</td>
+                            <td>@Html.DisplayFor(model => model.rznsocial)</td>
+                            <td>@Html.DisplayFor(model => model.fecha)</td>
+                            <td>@Html.DisplayFor(model => model.personaRecep)</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+    </div><!--close registro guia productor-->
+
+    using (Html.BeginForm("agregarinsumo", "Productores", FormMethod.Post, new { id = "form2" }))
+    {
+        <div class="form-group"></div>
+        @Html.HiddenFor(model => model.numGuia)
+        @Html.HiddenFor(model => model.ruc)
+        @Html.HiddenFor(model => model.fecha)
+        @Html.HiddenFor(model => model.personaRecep)
+        @Html.HiddenFor(model => model.observ)
+        @Html.HiddenFor(model => model.salidaodevolucion)
+        <div class="container formulario">
+            <div class="col-md-12 ">
+                <legend>Agregar Insumo</legend>
+                <div class="col-md-6">
+                    <label>Insumo</label>
+                    @Html.DropDownList("listainsumos", Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Cantidad</label>
+                    @Html.TextBoxFor(model => model.cantidad, new { @class = "form-control", @placeholder = "Ingrese Cantidad", @type = "number", @step = "0.0001", @min = "0", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.cantidad, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="submit" name="sbRGuia" value="Agregar" class="btn btn-success">Agregar</button>
+                        <input type="reset" value="Cancelar" class="btn btn-success" />
+                    </div>
+                </div>
+                @if (Model.listainsumosguia.Any())
+                {
+                    <table class="table table-bordered">
+                        <legend>Detalle de Entrega a Productores</legend>
+                        <tr class="btn-success">
+                            <td><strong>Insumo</strong></td>
+                            <td><strong>UnidadMedida</strong></td>
+                            <td><strong>Cantidad</strong></td>
+                            <td><strong>Precio</strong></td>
+                            <td><strong>Total</strong></td>
+                        </tr>
+                        @foreach (var item in Model.listainsumosguia)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                <td>@Html.DisplayFor(modelItem => item[3])</td>
+                                <td>@Html.DisplayFor(modelItem => item[4])</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                <a href="@Url.Action("imprimirGuia", "Productores", new { @id = Model.numGuia})"
+                   type="submit"
+                   id="runReport"
+                   target="_blank"
+                   class="btn btn-primary">
+                    Imprimir
+                </a>
+                @*<button type="submit" name="sbRGuia" value="Imprimir" class="btn btn-success">Imprimir</button>*@
+            </div>
+        </div>
+        <br />
+        @*<div class="container">
+                    <button type="submit" class="btn btn-success btn-lg">Generar PDF</button>
+            </div>*@
+
+        if (Model.jsFormulario == "1")
+        {
+            <script type="text/javascript">bloqueaform("form2");</script>
+        }
+        if (Model.jsFormulario == "2")
+        {
+            <script type="text/javascript">
+                bloqueaform("form1");
+                ponerfocus("cantidad")
+            </script>
+        }
+        <script type="text/javascript">
+            document.getElementById("div2").style.display = "none";
+            jQuery(function ($) {
+                $("#ruc").mask("99999999999");
+                $("#fechaI").mask("99/99/9999");
+            });
+        </script>
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

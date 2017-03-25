@@ -1,0 +1,91 @@
+﻿@model almacen.Models.ClienteModel
+@{
+    ViewBag.Title = "agregarCliente"; 
+}
+   
+   @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <header class="page-header">
+            <center><h3>Agregar Nuevo Cliente Productor</h3></center>
+        </header>
+        <div class="container">
+            <div class="col-xs-12 col-sm-8 col-md-12 formulario">
+                <form class="form">
+                    <legend>Datos de Cliente <li class="fa fa-user fa-1x"></li></legend>
+                    <div class="col-md-6">
+                        <label>Ruc</label>
+                        @Html.TextBoxFor(model => model.ruc, new { @class = "form-control", @placeholder = "Ingrese ruc ", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Razon Social</label>
+                        @Html.TextBoxFor(model => model.razon_soc, new { @class = "form-control", @placeholder = "Ingrese razon social", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.razon_soc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Direccion</label>
+                        @Html.TextBoxFor(model => model.direc, new { @class = "form-control", @placeholder = "Ingrese direccion", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.direc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Telefono</label>
+                        @Html.TextBoxFor(model => model.telef, new { @class = "form-control", @placeholder = "Ingrese telefono"})
+                        @Html.ValidationMessageFor(model => model.telef, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Correo</label>
+                        @Html.TextBoxFor(model => model.correo, new { @class = "form-control", @placeholder = "Ingrese email", @type = "email"})
+                        @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Rep Legal</label>
+                        @Html.TextBoxFor(model => model.rep_leg, new { @class = "form-control", @placeholder = "Ingrese representacion legal"})
+                        @Html.ValidationMessageFor(model => model.rep_leg, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 imgcliente">
+                        <img src="~/Images/clientes.jpg" width="400" height="400" alt="clientes" class="img-circle" />
+                    </div>
+                    <div class="form-group"> </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <input type="submit" value="Registrar" class="btn btn-success" />
+                            <input type="reset" value="Nuevo" class="btn btn-success" />
+                            <a href="~/Clientes/listaclientes" class="btn btn-success"><li class="fa fa-arrow-left"></li> Volver</a>                        
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Raw(Model.mensaje)
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $("#ruc").mask("99999999999");
+            $("#fechaI").mask("99/99/9999");
+        });
+    </script>
+
+
+

@@ -1,0 +1,42 @@
+﻿@model  almacen.Models.Gastos_Compra
+
+    <header class="page-header">
+        <center><h3>Eliminar Gastos de compras</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Esta seguro de eliminar este gasto?</h3>
+            <table class="table table-bordered table-condensed table-responsive">
+                <legend>Datos de gastos</legend>
+                <thead>
+                    <tr class="btn-success">
+                        <td><strong>Cuenta</strong></td>
+                        <td><strong>Descripcion</strong></td>
+                        <td><strong>Cantidad</strong></td>
+                        <td><strong>Precio</strong></td>
+                        <td><strong>Total</strong></td>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.Cuenta)</td>@Html.HiddenFor(model => model.Cuenta)@Html.HiddenFor(model => model.cod_compra)
+                        <td>@Html.DisplayFor(model => model.Descripcion)</td>
+                        <td>@Html.DisplayFor(model => model.Cantidad)</td>
+                        <td>@Html.DisplayFor(model => model.Precio)</td>
+                        <td>@Html.DisplayFor(model => model.Total)</td>
+                      
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/GastosCompras/listagastoscompras" class="btn btn-success"><span class="fa fa-arrow-left"></span>Volver</a>
+            </p>
+        }
+    </div>

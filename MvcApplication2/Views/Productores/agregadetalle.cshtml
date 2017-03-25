@@ -1,0 +1,54 @@
+﻿@model almacen.Models.ProductorModel
+@{
+    ViewBag.Title = "Detalle de Guia";
+}
+
+@Scripts.Render("~/Content/js/formulario.js")
+@Scripts.Render("~/bundles/modernizr")
+
+<header class="page-header">
+    <center><h3>Agrgar Insumos a esta Guia</h3></center>
+</header>
+@using (Html.BeginForm("agregadetalle", "Productores"))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="col-md-12 col-md-push formulario">
+            <form class="form">
+                <legend>Datos de guia Insumo <li class="fa fa fa-1x"></li></legend>
+                <div class="col-md-6">
+                    <label>Numero Guia</label>
+                    @Html.TextBoxFor(model => model.numGuia, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.HiddenFor(model => model.numGuia)
+                </div>
+                <div class="col-md-6">
+                    <label>Insumo</label>
+                    @Html.DropDownList("listainsumos", Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label>Cantidad</label>
+                    @Html.TextBoxFor(model => model.cant, new { @class = "form-control", @placeholder = " Ingrese cantidad", @required = "required", @type = "number", @step = "0.000001", @min = "0",@max="999999999"})
+                    @Html.ValidationMessageFor(model => model.cant, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group"> </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="submit" value="Registrar" class="btn btn-success">Registrar</button>
+                        <input type="reset" value="Nuevo" class="btn btn-success" />
+                        <a href="~/Productores/detalleguia" class="btn btn-success"><li class="fa fa-arrow-left"></li> Volver</a>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    @Html.Raw(Model.msjProductorModel)
+                </div>
+            </form>
+        </div>
+    </div>
+}

@@ -1,0 +1,54 @@
+﻿@model  almacen.Models.ClienteStockModel
+@{  
+    <header class="page-header">
+        <center><h3>Stock Actual de Productor</h3></center>
+    </header>
+    using (Html.BeginForm("listastockCliente", "Clientes", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+       
+    <div class="container">
+        <div class="col-md-12 formulario">
+           
+            <form action="/" method="post"></form>
+            <legend>Consultar Stock</legend>
+            <div class="col-md-4"> 
+               @Html.DropDownListFor(model => model.ruc, Model.listaclientes, "Seleccione productor--", new { @class = "form-control", @required = "required" })
+               @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })         
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success" name="buscar" id="idBuscar">
+                    Consultar
+                    <span class="fa fa-search"></span>
+                </button>
+            </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                <div>
+                    @Html.Raw(Model.msjerror)
+                </div>
+                <table class="table table-bordered table-condensed table-responsive">
+                    <legend>Detalle de Stock</legend>
+                    <thead>
+                        <tr class="btn-success text-center text-justify">
+                            <th>Codigo Insumo</th>
+                            <th>Nombre Insumo</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model.listastockcliente){
+                            <tr class="text-justify">
+                                <td class="">@Html.DisplayFor(modelItem => item[0])</td>
+                                <td class="">@Html.DisplayFor(modelItem => item[1])</td>
+                                <td class="">@Html.DisplayFor(modelItem => item[2])</td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+    </div>
+}
+}

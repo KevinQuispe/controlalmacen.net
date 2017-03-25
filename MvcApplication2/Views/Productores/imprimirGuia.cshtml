@@ -1,0 +1,123 @@
+﻿@model almacen.Models.ProductorModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>imprimirGuia</title>
+    <link href="~/Images/iconlogin.ico" rel="shortcut icon" type="image/x-icon" />
+    @Styles.Render("~/Content/css/bootstrap.css")
+    @Styles.Render("~/Content/css/style.css")
+    @Styles.Render("~/Content/css/printstyle.css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript">
+        window.print();
+    </script>
+</head>
+<body>
+
+    <div class="container formulario">
+        <div class="page">
+            <header class="header">
+                <h1>Agronegocios Los Angeles S.A.C</h1>
+                <small>Mza C Int. 08 Dto 204 Lt 04 Urb. Mirafolres 2da. Etapa</small>
+                <small>Castilla-Piura-Piura</small><br>
+                <small><strong>Telf:0051-344826 Cel:0051 943608772</strong></small><br>
+                <small><address>jdiaz@agronegocioslosangeles.com</address></small>
+                <small><strong>www.agroegocioslosangeles.com</strong></small>
+            </header>
+            <div class="subpage">
+
+                <div class="col-md-3" id="div1">
+                    <label>Número Guía</label>
+                    @Html.DisplayFor(s => s.numGuia, new { @class = "form-control", @placeholder = "Ingrese numero guia", @maxlength = "20", @required = "required" })
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha Emision</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.DisplayFor(s => s.fecha, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaI" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha Inicio de Traslado</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        @Html.DisplayFor(s => s.fechaT, new { @class = "form-control", @type = "text", @placeholder = "Ingrese fecha", @required = "required", @id = "fechaF" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de partida</label>
+                    @Html.DisplayFor(s => s.puntopartida, new { @class = "form-control", @placeholder = "Ingrese direccion de almacen", @required = "required" })
+                </div>
+                <div class="col-md-6">
+                    <label class="bg-success">Punto de llegada</label>
+                    @Html.DisplayFor(s => s.puntollegada, new { @class = "form-control", @placeholder = "Ingrese direccion de cliente", @required = "required" })
+                </div>
+
+                <div class="col-md-6">
+                    <label>Persona Recepción</label>
+                    @Html.DisplayFor(s => s.personaRecep, new { @class = "form-control", @placeholder = "Ingrese persona recepcion", @required = "required" })
+                </div>
+                <div class="col-md-12">
+                    <hr class="style-fou">
+                </div>
+                <div class="col-md-6">
+                    <label>Remite</label>
+                    @Html.DisplayFor(s => s.rznsocial, new { @class = "form-control", @placeholder = "Ingrese razon social del remitente", @required = "required" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC</label>
+                    @Html.DisplayFor(s => s.ruccliente, new { @class = "form-control", @placeholder = "Ingrese ruc", @maxlength = "13" })
+                </div>
+                <div class="col-md-6">
+                    <label>Destinatario</label>
+                    @Html.DisplayFor(s => s.razondestinatario, new { @class = "form-control", @placeholder = "Ingrese razon social destinatario", @required = "required" })
+                </div>
+                <div class="col-md-3">
+                    <label>RUC Cliente</label>
+                    @Html.DisplayFor(s => s.ruc, new { @class = "form-control", @placeholder = "Ingrese ruc de cliente" })
+                </div>
+                <div class="col-md-3">
+                    <label>Otro Doc. Identidad N°</label>
+                    @Html.DisplayFor(s => s.otrodoc, new { @class = "form-control", @placeholder = "N° documento identidad" })
+                </div>
+                <div class="col-md-3">
+                    <label>Vehiculo Marca Y Placa N°</label>
+                    @Html.DisplayFor(s => s.marcaplacavh, new { @class = "form-control", @placeholder = "N° placa de vehiculo" })
+                </div>
+                <div class="col-md-3">
+                    <label>Configuracion vehicular</label>
+                    @Html.DisplayFor(s => s.confvehicular, new { @class = "form-control", @placeholder = "Configuracion vehicular" })
+                </div>
+                <div class="col-md-3">
+                    <label>Cert. Ins M.T.C</label>
+                    @Html.DisplayFor(s => s.MTC, new { @class = "form-control", @placeholder = "Ingrese Cert Insc. MTC" })
+                </div>
+                <div class="col-md-3">
+                    <label>Licencia de conducir</label>
+                    @Html.DisplayFor(s => s.licenciaconducir, new { @class = "form-control", @placeholder = "Ingrese Lic de Conducir" })
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <tr class="btn-success">
+                            <td><strong>Insumo</strong></td>
+                            <td><strong>Nombre Insumo</strong></td>
+                            <td><strong>Cantidad</strong></td>
+                            <td><strong>Unidad</strong></td>
+                        </tr>
+                        @foreach (var item in Model.listainsumosguia)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                <td>@Html.DisplayFor(modelItem => item[3])</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

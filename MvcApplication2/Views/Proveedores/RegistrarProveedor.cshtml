@@ -1,0 +1,115 @@
+﻿@model almacen.Models.ProveedorModel
+
+@{
+    ViewBag.Title = "Agregar Proveedor";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <header class="page-header">
+            <center><h3>Agregar Nuevo Proveedor</h3></center>
+        </header>
+        <div class="container">
+            <div class="col-md-12 col-md-push formulario">
+
+                <form class="form">
+                    <legend>Datos de Proveedor <li class="fa fa-user fa-1x"></li></legend>
+                    <div class="col-md-6">
+                        <label>
+                            RUC <button type="button" id="btn1111" class="btn-success">RUC de 11</button>&nbsp;<button type="button" id="btn1113" class="btn-success">RUC de 13</button>
+                        </label>
+                        @Html.TextBoxFor(model => model.ruc, new { @class = "form-control", @placeholder = "Ingrese ruc", @disabled = "disabled", @id = "ruc11" })
+                        @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                    </div>
+                    @*<div class="col-md-6">
+                            <label class="col-md-12">RUC de 11 o 13 caracteres</label>
+                            <button type="button" id="btn1111" class="btn-success">RUC de 11</button>&nbsp;<button type="button" id="btn1113" class="btn-success">RUC de 13</button>
+                        </div>*@
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Razon Social</label>
+                        @Html.TextBoxFor(model => model.raz_soc, new { @class = "form-control", @placeholder = "Ingrese razon social", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.raz_soc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Telefono</label>
+                        @Html.TextBoxFor(model => model.telefono, new { @class = "form-control", @placeholder = "Ingrese telefono" })
+                        @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Fax</label>
+                        @Html.TextBoxFor(model => model.fax, new { @class = "form-control", @placeholder = "Ingrese fax", @type = "tex" })
+                        @Html.ValidationMessageFor(model => model.fax, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Correo</label>
+                        @Html.TextBoxFor(model => model.correo, new { @class = "form-control", @placeholder = "Ingrese correo", @type = "email" })
+                        @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Rep Legal</label>
+                        @Html.TextBoxFor(model => model.rep_legal, new { @class = "form-control", @placeholder = "Ingrese representacion legal" })
+                        @Html.ValidationMessageFor(model => model.rep_legal, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 imgcliente">
+                        <img src="~/Images/proveedor.png" width="360" height="360" alt="clientes" class="img-rounded" />
+                    </div>
+                    <div class="form-group"> </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div>
+                        <div class="col-md-4">
+                            @Html.Raw(Model.msjerror)
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <input type="submit" value="Registrar" class="btn btn-success" />
+                            <input type="reset" value="Nuevo" class="btn btn-success" />
+                            <a href="~/Proveedores/listaProveedores" class="btn btn-success "><li class="fa fa-arrow-left"></li> Volver</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    <script type="text/javascript">
+        $("#btn1113").click(function () {
+            $("#ruc11").removeAttr("disabled");
+            $("#ruc11").attr("required", "required");
+            $("#ruc11").mask("9999999999999");
+        });
+        $("#btn1111").click(function () {
+            $("#ruc11").removeAttr("disabled");
+            $("#ruc11").attr("required", "required");
+            $("#ruc11").mask("99999999999");
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

@@ -1,0 +1,55 @@
+﻿@model  IEnumerable<almacen.Models.TipoCambioModel>
+
+@{
+    ViewBag.Title = "tipo_de_cambio";
+}
+<header class="page-header">
+    <center><h3>Cotizacion del Dolar (S/. por US$)</h3></center>
+</header>
+<div class="container formulario">
+    <div class="col-md-12">
+        <div class=" pull-right">
+          
+            <a href="~/Insumos/compras" class="btn btn-info"><li class="fa fa-arrow-left"></li>Volver</a>
+        </div>
+        <table class="table table-bordered  table-condensed formdolar">
+            <legend>Datos de Cotizacion 
+                <a href="http://cuantoestaeldolar.pe/" class="btn btn-link fa" title="Consultar online" target="_blank">
+                    <i class="fa fa-internet-explorer" aria-hidden="true"></i> Consultar Online
+                </a>
+            </legend>
+            <thead class="text-center">
+                <tr class="btn-info">
+                    <th><strong>Fecha</strong></th>
+                    <th><strong>Compra</strong></th>
+                    <th><strong>Venta</strong></th>
+                    <th class="text-center"><strong>Actualizar</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.compra)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.venta)
+                        </td>
+                        <td class="text-center">
+                            <a href="~/TipoCambio/Nuevo" class="btn btn-primary btn-sm"><li class="fa fa-plus-circle"></li>Nuevo</a>
+                            <a href="~/TipoCambio/Editar/@item.fecha.Trim()" title="Editar" class="btn btn-warning btn btn-sm">
+                                Editar <span class="fa fa-pencil fa-1x"></span>
+                            </a>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model almacen.Models.SemanaProduccion
+
+@{
+    ViewBag.Title = "TablasemanaProduccion";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+<header class="page-header">
+    <h3><center>Tabla de la Produccion en la Semana</center></h3>
+</header>
+<div class="container">
+    @using (Html.BeginForm("TablasemanaProduccion", "Produccion", FormMethod.Post))
+    {
+        <div class="col-md-12 formulario">
+            <fieldset class="has-success">
+                <form>
+                    <legend>Datos de Produccuion semana</legend>
+                    <div class="form-horizontal">
+                       
+                            <div class="col-md-6">
+                                <label>Producto</label>
+                                @Html.DropDownListFor(model => model.prodTerminado, Model.listadropcodigoprodterm, "Seleccione produccion", new { @class = "form-control", @required = "required" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Semana Produccion</label>
+                                @Html.TextBoxFor(model => model.semana, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.semana)
+                            </div>
+                            <div class="col-md-3">
+                                <label>Año</label>
+                                @Html.TextBoxFor(model => model.anio, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.anio)
+                            </div>
+                        
+                        <div class="form-group col-md-12"> </div>
+                       
+                            <div class="pull-right">
+                                <button type="submit" value="Aceptar" class="btn btn-success"><li class="fa fa-search"></li>Consultar</button>
+                            </div>
+                       
+                    </div>
+                </form>
+                <div class="form-group col-md-12"></div>
+                @if (Model.listSemProdInsumo.Any())
+                {
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr class="btn-success">
+                                <td><strong>RUC</strong></td>
+                                <td><strong>PRODUCTOR</strong></td>
+                                <td><strong>SEMANA @Html.DisplayFor(model => model.semana) - @Html.DisplayFor(model => model.anio)</strong></td>
+                                <td><strong>Paletizar</strong></td>
+                             </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listSemProdInsumo)
+                            {
+                                <tr>
+                                    <td class="text-lowercase">@Html.DisplayFor(modelItem => item[0])</td>
+                                    <td class="text-lowercase">@Html.DisplayFor(modelItem => item[1])</td>
+                                    <td class="text-lowercase text-right">
+                                        @Html.DisplayFor(modelItem => item[2]) &nbsp;
+                                        <a href="@Url.Action("DetalleTablaSemProd", "Produccion", new { @id = item[0].Trim()+"a"+Model.semana+"a"+Model.anio+"a"+Model.prodTerminado})" class="btn btn-warning btn-sm pull-right">
+                                            <span class="text-primary"><i class="fa fa-search-plus" aria-hidden="true"></i>Detalle</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("PorPaletizar", "Paletizar", new { @id = item[0].Trim() + "a" + Model.semana + "a" + Model.anio + "a" + Model.prodTerminado })" class="btn btn-info btn-sm pull-right">
+                                            <span class="text-primary"><i class="fa fa-search-plus" aria-hidden="true"></i>Por Paletizar</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <!--CLOSE PRODUCCION-->
+                      <div class="pull-right">
+                          <button type="submit" value="Aceptar" class="btn btn-danger"><li class="fa fa-close"></li>Cerrar Produccion</button>
+                     </div>
+                }
+            </fieldset>
+        </div>
+    }
+</div>

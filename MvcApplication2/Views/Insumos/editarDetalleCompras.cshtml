@@ -1,0 +1,71 @@
+﻿@model almacen.Models.detalleCompraModel
+
+@{
+    ViewBag.Title = "editarDetalleCompras";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>EDITAR DETALLE DE LA COMPRA</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            <fieldset>
+                <legend>Insumos de la Compra</legend>
+                @Html.HiddenFor(model => model.idcompra)@Html.HiddenFor(model => model.codinsumo)
+                <div class="form-group col-md-12">
+                    <label class="control-label col-sm-4">Insumo</label>
+                    <div class="col-sm-5 col-md-5">
+                        @Html.TextBoxFor(model => model.insumo, new { @class = "form-control", @disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.insumo)@Html.HiddenFor(model => model.insumo)
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label col-sm-4">Precio</label>
+                    <div class="col-sm-5 col-md-5">
+                        @Html.TextBoxFor(model => model.precio, new { @class = "form-control", @placeholder = "precio", @type = "number", @step = "0.01", @min = "0" })
+                        @Html.ValidationMessageFor(model => model.precio)
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label col-sm-4">Cantidad</label>
+                    <div class="col-sm-5 col-md-5">
+                        @Html.TextBoxFor(model => model.cantidad, new { @class = "form-control", @placeholder = "cantidad", @type = "number", @step = "1", @min = "0" })
+                        @Html.ValidationMessageFor(model => model.cantidad)
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label col-sm-4">Observación</label>
+                    <div class="col-sm-5 col-md-5">
+                        @Html.TextBoxFor(model => model.Observacion, new { @class = "form-control", @placeholder = "observación", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.Observacion)
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button id="btnEditarDetCompra" type="submit" value="Save" class="btn btn-success" onclick="this.form.submit(); this.disabled=true;">Guardar</button>
+                        &nbsp;
+                        @Html.ActionLink("Volver", "detallecompras", new { id = Model.idcompra }, new { @class = "btn btn-success" })
+                    </div>
+                </div>
+                @Html.ValidationMessage("msgEditDetCompra", "", new { @class = "text-info" })
+            </fieldset>
+        }
+    </div>
+    <script type="text/javascript">
+        @Html.Raw(Model.comandojavascript)
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

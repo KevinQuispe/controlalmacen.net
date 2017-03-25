@@ -1,0 +1,74 @@
+﻿@model IEnumerable<almacen.Models.usuario>
+@{
+    ViewBag.Title = "ListarUsuario";
+}
+@if (Model != null && Session["Username"] != null)
+{
+    <header class="page-header"><center><h3>Lista de Usuarios</h3></center></header>
+    <div class="container formulario">
+        <p class="pull-right">
+            <a href="~/Usuarios/registrausuarios" class="btn btn-success fa fa-user-plus">Nuevo</a>
+        </p>
+        <table class="table table-bordered table-condensed table-responsive">
+            <legend>Datos de Usuario</legend>
+            <tr class="btn-success">
+                <th class="text-center">
+                    Login
+                </th>
+                
+                <th class="text-center">
+                    Nombres
+                </th>
+                <th class="text-center">
+                    Apellidos
+                </th>
+                <th class="text-center">
+                    Correo
+                </th>
+                <th class="text-center">
+                    Telefono
+                </th>
+                <th class="text-center">
+                    Mantenimiento
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.loggin)
+                    </td>
+                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombres)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.correo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.telefono)
+                    </td>
+                    <td class="text-center">
+                        <a href="~/Usuarios/EditarUser/@item.id" title="Editar" class="btn btn-warning btn btn-sm">
+                            Editar <span class="fa fa-pencil fa-1x"></span>
+                        </a>
+                        <a href="~/Usuarios/DeleteUser/@item.id" title="Eliminar" class="btn btn-danger btn btn-sm">
+                            Eliminar <span class="fa fa-trash fa-1x"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

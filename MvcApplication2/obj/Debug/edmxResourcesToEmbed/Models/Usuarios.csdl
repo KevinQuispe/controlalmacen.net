@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ALMACENBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="usuarios">
+    <Key>
+      <PropertyRef Name="login" />
+    </Key>
+    <Property Name="login" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="nombres" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+    <Property Name="apellidos" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+    <Property Name="correo" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+    <Property Name="telefono" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="ALMACENBDEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,441 @@
+﻿@model almacen.Models.InsumoModel
+@{
+    ViewBag.Title = "Registro de Comprobantes";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Registro de Comprobantes</h3></center>
+    </header>
+    <div class="container formulario">
+        <div class="col-md-12 ">
+            <div class="form-horizontal">
+                <legend>Datos  guia de remision <a href="~/Insumos/comprainsumos" class="btn btn-success pull-right" >Nuevo</a></legend>
+                @using (Html.BeginForm("comprainsumos", "Insumos", FormMethod.Post, new { id = "form1" }))
+                {
+                    <div class="col-md-6">
+                        <label class="col-md-12">Elija forma de pago</label>
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.forma_pago, new SelectListItem[] { new SelectListItem() { Text = "contado", Value = "1" }, new SelectListItem() { Text = "credito", Value = "2" } }, new { @class = "form-control", @onchange = "CallChangefunc(this.value)", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-6" id="txtfechai" style=@Model.isvisible>
+                        <label class="col-md-12">Fecha Emision</label>
+                        <div class="col-md-12">
+                            <div class="input-group date col-md-12" data-provide="datepicker">
+                                @Html.TextBoxFor(model => model.fecha_emi, new { @class = "form-control", @maxlength = "10", @type = "text", @name = "fechainicio", @id = "fechaI", @placeholder = " Ingrese fecha de emision", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.fecha_emi, "", new { @class = "text-danger" })
+                                <div class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" id="txtfechaf" style=@Model.isvisible>
+                        @if (Model.forma_pago == "2")
+                        {
+                            <label class="col-md-12">Fecha Vencimiento</label>
+                            <div class="col-md-12">
+                                <div class="input-group date col-md-12" data-provide="datepicker">
+                                    @Html.TextBoxFor(model => model.fecha_venc, new { @class = "form-control", @maxlength = "10", @type = "text", @name = "fechafin", @id = "fechaF", @placeholder = " Ingrese fecha de vencimiento" })
+                                    @Html.ValidationMessageFor(model => model.fecha_venc, "", new { @class = "text-danger" })
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">Ruc</label>
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(model => model.ruc, new { @class = "form-control", @maxlength = "13", @placeholder = " Ingrese ruc", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">N° Comprobante</label>
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(model => model.numcompI, new { @class = "form-control", @maxlength = "4", @placeholder = "Serie", @onblur = "rellenarceros(this)", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.numcompI, "", new { @class = "text-danger" })
+                        </div>
+                        <label class="col-md-1">-</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.numcompII, new { @class = "form-control", @maxlength = "6", @placeholder = "Número", @onblur = "rellenarceros(this)", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.numcompII, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">N° guia</label>
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(model => model.numGuia, new { @class = "form-control", @maxlength = "30", @placeholder = " Ingrese numero de guia", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.numGuia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                     <!--here modified-->
+                    <div class="col-md-6">
+                        <label class="col-md-12">Tipo de cambio<a href="~/TipoCambio/tipo_de_cambio" class="btn btn-link"></a></label>
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(model => model.tipodecambio, new { @class = "form-control", @maxlength = "30", @placeholder = " tipo de cambio", @id = "txttipodecambio", @required = "required" })@Html.HiddenFor(model => model.tipodecambio)
+                            @Html.ValidationMessageFor(model => model.tipodecambio, "", new { @class = "text-danger" })
+                        </div>
+                        <label class="col-md-1">-</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.moneda, new SelectListItem[] { new SelectListItem() { Text = "S/. Soles", Value = "1" }, new SelectListItem() { Text = "$/. Dolares", Value = "2" } }, "Moneda", new { @class = "form-control", @onchange = "calligvvisible(this.value)", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">Valor venta</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.valor_venta, new { @class = "form-control", @placeholder = " Ingrese valor de venta", @required = "required", @type = "number", @step = "0.0001", @min = "0" })
+                            @Html.ValidationMessageFor(model => model.valor_venta, "", new { @class = "text-danger" })
+                        </div>
+                        <!--here is visible-->
+                        <div class="col-md-6" id="igv1" style=@Model.igvisvisible>
+                            @Html.TextBoxFor(model => model.igv, new { @class = "form-control", @placeholder = "IGV 18%", @name = "igv1", @id = "igv1", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.igv, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12"></div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">Observacion</label>
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(model => model.observ, new { @class = "form-control", @placeholder = " Ingrese alguna observacion", @type = "textarea", @rows = "3", @cols = "20" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12">Tipo de Movimiento</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.compraoventa, new SelectListItem[] { new SelectListItem() { Text = "Compra", Value = "1" }, new SelectListItem() { Text = "Venta", Value = "2" } }, new { @class = "form-control", @onchange = "Calltipocambio()", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            @Html.Raw(Model.msjInsumoModel)
+                        </div>
+                        <div class="pull-right">
+                            <button type="submit" name="btnguardarcompra" value="Guardar" class="btn btn-success">Guardar</button>
+                           
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                </div>
+            </div>
+            @if (Model.jsFormulario != "1")
+            {
+                <div id="tablacompra" class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="btn-success">
+                                <td><strong>Forma Pago</strong></td>
+                                <td><strong>Fecha Emision</strong></td>
+                                <td><strong>Fecha Vencimiento</strong></td>
+                                <td><strong>Ruc</strong></td>
+                                <td><strong>N° Comprobante</strong></td>
+                                <td><strong>N° Guia</strong></td>
+                                <td><strong>Observacion</strong></td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.forma_pago)</td>
+                            <td>@Html.DisplayFor(model => model.fecha_emi)</td>
+                            <td>@Html.DisplayFor(model => model.fecha_venc)</td>
+                            <td>@Html.DisplayFor(model => model.ruc)</td>
+                            <td>@Html.DisplayFor(model => model.numcomp)</td>
+                            <td>@Html.DisplayFor(model => model.numGuia)</td>
+                            <td>@Html.DisplayFor(model => model.observ)</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="form-group"></div>
+    <div class="form-group"></div>
+    using (Html.BeginForm("detallecompraInsumo", "Insumos", FormMethod.Post, new { id = "form2" }))
+    {
+        @Html.HiddenFor(model => model.forma_pago)
+        @Html.HiddenFor(model => model.fecha_emi)
+        @Html.HiddenFor(model => model.fecha_venc)
+        @Html.HiddenFor(model => model.ruc)
+        @Html.HiddenFor(model => model.numGuia)
+        @Html.HiddenFor(model => model.numcomp)
+        @Html.HiddenFor(model => model.razon_social)
+        @Html.HiddenFor(model => model.tipodecambio)
+        @Html.HiddenFor(model => model.moneda)
+        @Html.HiddenFor(model => model.valor_venta)
+        @Html.HiddenFor(model => model.observ)
+        @Html.HiddenFor(model => model.compraoventa)
+        <!--fomrmulario insumo-->
+        <div class="container formulario">
+            @if (Model.compraoventa == 1 && Model.listacomprainsumos.Any())
+            {
+                <div class="col-md-12">
+                    <!--datos para el  costo adicional-->
+                    <div class="col-lg-10">
+                        <legend>
+                            Agregar Insumo
+                            <a href="#addinsumo" class="btn btn-link fa fa-money" title="agregar costo adicional a insumos">Costeo Adicional</a>
+                            <button type="button" id="botonagregar" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Agregar</button>
+                            @if (Model.listagastoscompra.Any())
+                            {
+                                <button type="submit" id="botonasignar" class="btn btn-info btn-sm" name="sbinsumoencompra" value="asignar">Asignar costos adicionales</button>                                
+                            }                            
+                        </legend>
+                    </div>
+                    <!--form para el  costo adicional-->
+                    <div id="contenido" class="hideable">
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header btn-success">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><center>Costo Adicional</center></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="contenido" class="hideable">
+                                            <div class="col-md-12 formulario">
+                                                <fieldset class="has-success">
+                                                    <div class="col-md-12" id="formcostosadicionales">
+                                                        <legend>Costo Adicional</legend>
+                                                        <div class="form-group">
+                                                            <div class="col-md-2">
+                                                                <label>Cuenta</label>
+                                                            </div>
+                                                            <div class="col-md-4 form-group">
+                                                                @Html.TextBoxFor(s => s.cuenta, new { @class = "form-control", @placeholder = "Cuenta" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Descripcion</label>
+                                                            </div>
+                                                            <div class="col-md-4 form-group">
+                                                                @Html.TextBoxFor(s => s.desc_adic, new { @class = "form-control", @placeholder = "Descripcion" })
+                                                            </div>
+                                                            <div class="col-md-2 ">
+                                                                <label>cantidad</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            @Html.TextBoxFor(s => s.cant_adic, new { @class = "form-control", @placeholder = " Cantidad", @type = "number", @step = "0.0001", @min = "0" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Precio</label>
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            @Html.TextBoxFor(s => s.prec_adic, new { @class = "form-control", @placeholder = " Precio", @type = "number", @step = "0.0001", @min = "0" })
+                                                        </div>
+
+                                                        <div class="col-md-2 form-group">
+                                                            <label>Total</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(s => s.total_adic, new { @class = "form-control", @placeholder = " Total", @readonly = "readonly" })
+                                                        </div>
+                                                        <div class="col-md-12"><div class="form-group"></div></div>
+
+                                                        <div class="col-md-12 col-md-push">
+                                                            <div class="pull-right">
+                                                                <button type="submit" name="sbinsumoencompra" value="grabar" class="btn btn-success">Grabar</button>
+                                                                <input type="reset" value="Nuevo" class="btn btn-success" />
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12"><div class="form-group"></div></div>
+                                                    </div>
+                                                    <table class="table table-bordered">
+                                                        <legend>Datos de costo Adicional</legend>
+                                                        <thead>
+                                                            <tr class="btn-success">
+                                                                <td><strong>Cuenta</strong></td>
+                                                                <td><strong>Descripcion</strong></td>
+                                                                <td><strong>Cantidad</strong></td>
+                                                                <td><strong>Precio</strong></td>
+                                                                <td><strong>Total</strong></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.listagastoscompra)
+                                                            {
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item[3])</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item[4])</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  <!--close Modal -->
+                    </div>
+                </div>
+            }
+            <div class="col-md-12" id="addinsumo">
+
+                <div class="col-md-12 formulario">
+                    <div class="col-md-8 tipocambi">
+                        <div class="col-md-7">
+                            <label>Insumo</label>
+                            @Html.DropDownList("insumos", Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Cantidad</label>
+                            @Html.TextBoxFor(s => s.cant, new { @class = "form-control", @placeholder = " Cantidad", @type = "number", @step = "0.0001", @min = "0" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="col-md-7">
+                            <label>Observacion</label>
+                            @Html.TextAreaFor(s => s.observdetalle, new { @placeholder = "Ingrese alguna observacion", @class = "form-control", @type = "textarea" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Precio <i class="fa fa-money fa-1x"></i></label>
+                            @Html.TextBoxFor(s => s.precio, new { @class = "form-control", @type = "number", @placeholder = "Precio", @step = "0.0000001", @min = "0" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="pull-right">
+                                <button type="submit" name="sbinsumoencompra" value="agregar" class="btn btn-success">Agregar</button>
+                                <a href="~/Home/Index" class="btn btn-success">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--here tipo de cambiooo-->
+
+                    <div class="col-md-4 tipocambio">
+                        <aside>
+                            <div class="col-md-2">
+                                <label>Valor Venta</label>
+                            </div>
+                            <div class=" col-md-8 col-md-offset-1">
+                                @Html.TextBoxFor(s => s.valorventacalculado, new { @class = "form-control", @type = "text", @placeholder = "Valor Venta", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>IGV</label>
+                            </div>
+                            <!--here visible-->
+                            <div class="col-md-8 col-md-offset-1">
+                                @Html.TextBoxFor(s => s.impuesto, new { @class = "form-control", @type = "number", @placeholder = "IGV 18%", @readonly = "readonly", @step = "0.001", @min = "0" })
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>S/.Total</label>
+                            </div>
+                            <div class="col-md-8 col-md-offset-1">
+                                @Html.TextBoxFor(s => s.total, new { @class = "form-control", @type = "text", @placeholder = "Total", @readonly = "readonly" })
+                            </div>
+                        </aside>
+                    </div>
+                </div><!--here-->
+            </div>
+            @if (Model.listacomprainsumos.Any())
+            {
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <legend>Detalle de Insumo</legend>
+                        <thead>
+                            <tr class="btn-success">
+                                <td><strong>Insumo</strong></td>
+                                <td><strong>Unidad Medida</strong></td>
+                                <td><strong>Observacion</strong></td>
+                                <td><strong>Cantidad</strong></td>
+                                <td><strong>Precio</strong></td>
+                                <td><strong>Total</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listacomprainsumos)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[3])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[4])</td>
+                                    <td>@Html.DisplayFor(modelItem => item[5])</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+        <div class="form-group"></div>
+
+        <!--fomrmulario detalle-->
+        if (Model.jsFormulario == "1")
+        {
+            <script type="text/javascript">bloqueaform("form2");</script>
+        }
+        if (Model.jsFormulario == "2")
+        {
+            <script type="text/javascript">
+                bloqueaform("form1");
+            </script>
+            if (!Model.listacomprainsumos.Any())
+            {
+                <script type="text/javascript">ponerfocus("cant")</script>                
+            }
+        }
+        if (Model.forma_pago == "1" && Model.jsFormulario != "1")
+        {
+            <script type="text/javascript">bloqueafechaRC("1");</script>
+        }
+        else
+        {
+            if (Model.forma_pago == "2" && Model.jsFormulario != "1")
+            {
+                <script type="text/javascript">bloqueafechaRC("2");</script>
+            }
+        }
+        <script type="text/javascript">
+            $(document).ready(function ($) {
+                $("#fechaI").mask("99/99/9999");
+                $("#fechaF").mask("99/99/9999");
+            });
+            function rellenarceros(textbox) {
+                mystr = textbox.value
+                if (textbox.maxLength == 4) {
+                    pad = '0000'
+                }
+                if (textbox.maxLength == 6) {
+                    pad = '000000'
+                }
+                cadena = (pad + mystr).slice(-pad.length)
+                textbox.value = cadena;
+            }
+        </script>
+
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}

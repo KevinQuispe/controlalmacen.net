@@ -1,0 +1,75 @@
+﻿@model almacen.Models.proveedor
+
+@{
+    ViewBag.Title = "Editar";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Editar Proveedor</h3></center>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2 formulario">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <form class="form">
+                        <legend> Datos de Proveedor <li class="fa fa-user fa-1x"></li></legend>
+                        <div class="col-md-2">
+                            <label>Ruc</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            @Html.TextBoxFor(model => model.ruc, new { @class = " form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Razon social</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            @Html.TextBoxFor(model => model.razon_social, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Telefono</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            @Html.TextBoxFor(model => model.telefono, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Fax</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            @Html.TextBoxFor(model => model.fax, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Rep Legal</label>
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.rep_legal, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Correo</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            @Html.TextBoxFor(model => model.correo, new { @class = "form-control", @type = "email", @required = "required" })
+                        </div>
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-success fa fa-floppy-o"> Guardar</button>
+                            <a href="~/Proveedores/listaProveedores" class="btn btn-success fa fa-arrow-left"> Volver</a>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("/Home/Login", "_self");
+    </script>
+}

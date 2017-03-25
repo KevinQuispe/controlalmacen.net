@@ -1,0 +1,64 @@
+﻿@model almacen.Models.Gastos_Compra
+
+@{
+    ViewBag.Title = "EditarGastos";
+}
+   <header class="page-header">
+        <center><h3>Editar gastos Compras</h3></center>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2 formulario">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset>
+                        <form class="form">
+                            <legend> Datos de Gastos de compra<li class="fa fa-shopping-cart fa-1x"></li></legend>                                       
+                            <div class="col-md-2">
+                                <label>Cuenta</label>
+                            </div>
+                            <div class="col-md-10 form-group">@Html.HiddenFor(model => model.cod_compra)<!--BENDITO HIDENFOR SIN ESTO NO FUUNCIONA-->
+                                @Html.TextBoxFor(model => model.Cuenta, new { @class = " form-control", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Descripcion</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Cantidad</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.Cantidad, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Precio</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.Precio, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Total</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                @Html.TextBoxFor(model => model.Total, new { @class = "form-control"})
+                            </div>
+                            
+                            <div class="col-md-12 form-group">
+                                <div class="form-group"></div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-success fa fa-floppy-o"> Guardar</button>
+                                <a href="~/GastosCompras/listagastoscompras" class="btn btn-success fa fa-arrow-left"> Volver</a>
+                            </div>
+                        </form>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+
+

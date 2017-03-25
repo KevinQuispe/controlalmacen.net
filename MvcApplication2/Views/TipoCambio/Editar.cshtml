@@ -1,0 +1,55 @@
+﻿@model almacen.Models.Cambio_moneda
+@{
+    ViewBag.Title = "Editar";
+}
+<header class="page-header">
+    <center><h3>Editar datos de moneda</h3></center>
+</header>
+
+<div class="container">
+    <div class="col-md-6 col-md-push-3 formdolar1">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <legend> Cotizacion del Dolar <li class="fa fa-usd fa-1x"></li> </legend>
+            <div class="col-md-4">
+                <label> <i class="fa fa-calendar" aria-hidden="true"></i> Fecha Cambio</label>
+            </div>
+            <div class="col-md-6 form-group">
+                @Html.TextBoxFor(model => model.Fecha_Cambio, new { @class = " form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-12">
+                <div class="form-group"></div>
+            </div>
+            <div class="col-md-4">
+                <label><i class="fa fa-buysellads" aria-hidden="true"></i> Compra</label>
+            </div>
+            <div class="col-md-6 form-group">
+                @Html.TextBoxFor(model => model.Compra, new { @class = "form-control", @type = "number", @step = "0.0001", @min = "0", @required = "required", @title = "Sólo si el navegador es Firefox, use coma como separador decimal"})
+            </div>
+            <div class="col-md-12">
+                <div class="form-group"></div>
+            </div>
+            <div class="col-md-4">
+                <label><i class="fa fa-money" aria-hidden="true"></i> Venta</label>
+            </div>
+            <div class="col-md-6 form-group">
+                @Html.TextBoxFor(model => model.Venta, new { @class = "form-control", @type = "number", @step = "0.0001", @min = "0", @required = "required", @title = "Sólo si el navegador es Firefox, use coma como separador decimal"})
+                @Html.ValidationMessageFor(model => model.Venta)
+            </div>
+
+            <div class="col-md-6 form-group">
+                <div class="form-group"></div>
+            </div>
+
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success"><li class="fa fa-save"></li> Guardar</button>
+                <a href="~/TipoCambio/Nuevo" class="btn btn-success"><li class="fa fa-plus-circle"></li>Nuevo</a>
+                <a href="~/TipoCambio/tipo_de_cambio" class="btn btn-success pull-rigth"><li class="fa fa-arrow-left"></li>Volver</a>
+            </div>
+        }
+    </div>
+
+</div>

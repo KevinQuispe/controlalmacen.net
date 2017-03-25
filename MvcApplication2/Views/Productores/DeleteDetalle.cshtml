@@ -1,0 +1,53 @@
+﻿@model almacen.Models.detalleGuiaModel
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar detalle De guia</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <h3 class="bg-danger">Estas seguro que quieres eliminar?</h3>
+
+            <table class="table table-bordered">
+                <legend>Datos de guia</legend>
+                <thead>
+                    <tr class="btn-success">
+                        <td><strong>Nombre Insumo</strong></td>
+                        <td><strong>Numero Guia</strong></td>
+                        <td><strong>Cantidad</strong></td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.nomInsumo)</td>@Html.HiddenFor(model => model.numGuia)@Html.HiddenFor(model => model.codInsumo)
+                        <td>@Html.DisplayFor(model => model.numGuia)</td>
+                        <td>@Html.DisplayFor(model => model.cant)</td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/Productores/Detalle" class="btn btn-success"><span class="fa fa-arrow-left"></span>Volver</a>
+            </p>
+        }
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+
+

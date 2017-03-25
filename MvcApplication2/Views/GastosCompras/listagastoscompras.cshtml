@@ -1,0 +1,54 @@
+﻿@model  IEnumerable<almacen.Models.GastosComprasModel>
+
+@{
+    ViewBag.Title = "listagastoscompras";
+}
+<header class="page-header">
+    <center><h3>Lista gastos de compras</h3></center>
+</header>
+<div class="container formulario">
+    <div class="col-md-12 ">
+        <div class="col-md-12">
+            <div class="form-group"></div>
+        </div>
+        <a href="~/Insumos/compras" class="btn btn-success fa fa-arrow-left pull-right"> Volver</a>
+    </div>
+        <table class="table table-bordered table-condensed table table-hover table table-striped">
+            <legend>Datos de Gastos Compras</legend>
+            <thead>
+                <tr class="btn-success">
+                    <td><strong>Cuenta</strong></td>
+                    <td><strong>Descripcion</strong></td>
+                    <td><strong>Precio</strong></td>
+                    <td><strong>Cantidad</strong></td>
+                    <td><strong>Total</strong></td>
+                    <td class="text-center"><strong>Mantenimiento</strong></td>
+                </tr>
+            </thead>
+                  
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        @*<td>@obj.codCompra</td>*@
+                        <td>@obj.cuenta</td>
+                        <td>@obj.desc_adic</td>
+                        <td>@obj.cant_adic</td>
+                        <td>@obj.prec_adic</td>
+                        <td>@obj.total_adic</td>
+
+                        <td class="text-center">
+                            <span>
+                              @Html.ActionLink("Editar", "EditarGastos", new { id = obj.cuenta.Trim() + "a" + obj.codCompra }, new { @class = "btn btn-warning fa fa-pencil fa-1x" })
+                            </span>
+                            <span>
+                           @*  @Html.ActionLink("Eliminar", "EliminarGastos", new { id = obj.codCompra.Trim() + "b" + obj.cuenta }, new { @class = "btn btn-danger fa fa-trash fa-1x" })*@
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+            </table>
+        </div>
+  

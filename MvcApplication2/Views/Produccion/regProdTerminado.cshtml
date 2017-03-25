@@ -1,0 +1,143 @@
+﻿@model almacen.Models.ProduccionModel
+@{
+    ViewBag.Title = "Producto Terminado";
+}
+<header class="page-header">
+    <h3><center>Registrar Producto Consumo</center></h3>
+</header>
+<div class="container">
+    @using (Html.BeginForm("regProdTerminado", "Produccion", FormMethod.Post))
+    {
+        <div class="container">
+            <div class="col-md-12 formulario">
+                <fieldset class="has-success">
+                    <form class="form-horizontal">
+                        <legend>Datos de Producto Consumo</legend>
+                        <div class="col-md-8">
+                            <div class="col-md-3">
+                                <label>Codigo Prod</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.codigopt, new { @class = "form-control btn-inf", @placeholder = "codigo generado", @readonly = "readonly" })@Html.HiddenFor(model => model.codigopt)
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="col-md-3">
+                                <label>Descripcion</label>
+                            </div>
+                            @if (Model.estadoformulario == 1)
+                            {
+                                <div class="col-md-5">
+                                    @Html.TextBoxFor(model => model.descripPT, new { @class = "form-control", @placeholder = "Ingrese descripcion",@style="text-transform:uppercase" ,@required = "required" })
+                                    @Html.ValidationMessageFor(model => model.descripPT, "", new { @class = "text-danger" })
+                                </div>
+                            }
+                            else
+                            {
+                                if (Model.estadoformulario == 2)
+                                {
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(model => model.descripPT, new { @class = "form-control", @style="text-transform:uppercase",@readonly = "readonly" })
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">@Html.Raw(Model.msjPorduccionModel)</div>
+                            <div class="form-group"></div>
+                        </div>
+                        @if (Model.estadoformulario == 1)
+                        {
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button type="submit" name="sbRegPT" value="Registrar" class="btn btn-success">Registrar</button>
+                                    <input type="reset" value="Nuevo" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-12">
+                            <div class="form-group"></div><div class="form-group"></div>
+                        </div>
+                        @if (Model.estadoformulario == 2)
+                        {
+                            <div class="col-md-12 formproterm">
+                                <legend>Datos de Insumos</legend>
+                                <div class="col-md-9">
+                                    <div class="col-md-3">
+                                        <label>Insumo</label>
+                                    </div>
+                                    <div class="col-md-5 col-md-pull">
+                                        @Html.DropDownListFor(model => model.codigoInsumo, Model.listadropinsumos, "Seleccione insumo", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.codigoInsumo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1 col-md-push">
+                                        <label>Cantidad</label>
+                                    </div>
+                                    <div class="col-md-3 col-md-push-1">
+                                        @Html.TextBoxFor(model => model.cantidad, new { @class = "form-control", @placeholder = "Cantidad", @type = "number", @required = "required", @step = "0.0000001", @min = "0" })
+                                        @Html.ValidationMessageFor(model => model.cantidad, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group"></div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="col-md-3">
+                                        <label>Tipo consumo</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.DropDownListFor(model => model.tipo, new SelectListItem[] { new SelectListItem() { Text = "Seleccion tipo de consumo", Value = "" }, new SelectListItem() { Text = "1-Paletizado", Value = "1" }, new SelectListItem() { Text = "2-No Paletizado", Value = "2" } }, new { @class = "form-control", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button type="submit" name="sbRegPT" value="Agregar" class="btn btn-success"><li class="fa fa-plus-circle"></li>Agregar</button>
+                                    </div>
+                                </div>
+                                @if (Model.listainsumosProdTerm.Any())
+                                {
+                                    <table class="table table-bordered table-condensed">
+                                        <legend>Detalle Insumo</legend>
+                                        <thead class="text-center">
+                                            <tr class="btn-success">
+                                                <td><strong>Código</strong></td>
+                                                <td><strong>Nombre de Insumo</strong></td>
+                                                <td><strong>Cantidad</strong></td>
+                                                <td><strong>Opciones</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.listainsumosProdTerm)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                                    <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                                    <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                                    <td class="text-center">
+                                                        <span class="fa fa-pencil btn btn-success btn btn-sm">
+                                                            @Html.ActionLink("Editar", "EDIT")
+                                                        </span>
+                                                        <span class="fa fa-pencil btn btn-danger btn btn-sm">
+                                                            @Html.ActionLink("Eliminar", "DELETE")
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        }
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    }
+</div>

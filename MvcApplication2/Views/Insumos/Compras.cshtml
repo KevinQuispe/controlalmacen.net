@@ -1,0 +1,110 @@
+﻿@model IEnumerable<almacen.Models.Compras>
+@{
+    ViewBag.Title = "Registros de Comprobantes";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+  <header class="page-header">
+    <center><h3>Datos de Registros de comprobantes</h3></center>
+</header>
+<div class="container-fluid" >
+    <div class="col-md-12  formulario">
+       
+        <div class="col-md-12">
+            <div class="form-group"></div>
+        </div>
+        <div class=" pull-right"><a href="~/Insumos/comprainsumos" class="btn btn-success"> <i class="fa fa-shopping-cart fa-1x" aria-hidden="true"></i> Nuevo Registro</a></div>
+        <table class="table table-bordered table-hover table-condensed">
+            <legend class="success">
+                Datos de comprobantes
+
+                @*@Html.RadioButton("ventas", "ventas") ventas
+                @Html.RadioButton("ventas", "ventas") compras*@
+                <a href="~/TipoCambio/tipo_de_cambio" class="btn btn-link fa" title="Consultar cotizacion del dolar">
+                    <i class="fa fa-usd" aria-hidden="true"></i>Cotizacion del Dolar
+                </a>
+                <a href="~/GastosCompras/listagastoscompras" class="btn btn-link fa pull-right" title="Aqui puede ver las compras que contien gastos">
+                    <i class="fa fa-credit-card fa-1x " aria-hidden="true"></i>Gastos de Compra
+                </a>
+            </legend>
+            <thead class="text-center">
+                <tr class="btn-success">
+                    <th><strong>Número</strong></th>
+                    <th><strong>Razon Social</strong></th>
+                    <th><strong>Fecha Emisión</strong></th>
+                    <th><strong>Fecha Vencimiento</strong></th>
+                    <th><strong>Observación</strong></th>
+                    <th><strong>Valor Venta</strong></th>
+                    <th><strong>Impuesto</strong></th>
+                    <th><strong><span class="fa fa-usd"></span>Total</strong></th>
+                    <th class="text-center"><strong>Mantenimiemto</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.numero)</td>
+                        <td>@Html.DisplayFor(modelItem => item.razonsocial)</td>
+                        <td>@Html.DisplayFor(modelItem => item.fechaemision)</td>
+                        <td>@Html.DisplayFor(modelItem => item.fechavencimiento)</td>
+                        <td>@Html.DisplayFor(modelItem => item.observacion)</td>
+                        <td class="bg-info">@Html.DisplayFor(modelItem => item.valorventa)</td>
+                        <td class="bg-danger">@Html.DisplayFor(modelItem => item.impuesto)</td>
+
+                        <td class="text-primary bg-info">@Html.DisplayFor(modelItem => item.total)</td>
+                        <td class="text-center">
+                            <a href="~/Insumos/editarcompras/@item.id" title="Editar" class="btn btn-success btn btn-sm">
+                                Editar <span class="fa fa-pencil fa-1x"></span>
+                            </a>
+                            <a href="~/Insumos/detallecompras/@item.id" title="Detalle" class="btn btn-warning btn btn-sm">
+                                Detalle <span class="fa fa-eye fa-1x"></span>
+                            </a>
+                            <a href="~/Insumos/Delete/@item.id" title="Eliminar" class="btn btn-danger btn btn-sm">
+                                Delete <span class="fa fa-trash fa-1x"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="">
+                        <ul class="pagination pagination-lg">
+                            <li class="disabled">
+                                <a href="#">&laquo;</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">1 <span class="sr-only">(página actual)</span></a>
+                            </li>
+                            <li class="">
+                                <a href="#">2<span class="sr-only">(página actual)</span></a>
+                            </li>
+                            <li class="">
+                                <a href="#">3<span class="sr-only">(página actual)</span></a>
+                            </li>
+                            <li class="">
+                                <a href="#">4<span class="sr-only">(página actual)</span></a>
+                            </li>
+                            <li class="">
+                                <a href="#">&raquo;</a>
+                            </li>
+                        </ul>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+}
+else
+{
+        <script type="text/javascript">
+            window.open("../Home/Login", "_self");
+        </script>
+}

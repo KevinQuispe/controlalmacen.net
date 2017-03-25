@@ -1,0 +1,73 @@
+﻿@model almacen.Models.UsuarioModel
+
+@{
+    ViewBag.Title = "registrarUsuarios";
+}
+@if (Model != null && Session["Username"] != null)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <header class="page-header">
+            <center><h3>Registro de Usuarios</h3></center>
+        </header>
+        <div class="container">
+            <div class=" col-sm-6 col-md-6 formuser">
+                <legend>Datos de Usuario <li class="fa fa-user-circle-o fa-1x"></li></legend>
+                <form class="form">
+                    <div class="col-md-12">
+                        <label>Nombres</label>
+                        @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @placeholder = "Ingrese nombres", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <label>Apellidos</label>
+                        @Html.TextBoxFor(model => model.apellido, new { @class = "form-control", @placeholder = "Ingrese apellidos", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <label>Correo</label>
+                        @Html.TextBoxFor(model => model.correo, new { @class = "form-control", @type = "email", @placeholder = "Ingrese correo", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <label>Telefono</label>
+                        @Html.TextBoxFor(model => model.telefono, new { @class = "form-control", @maxlength = "30", @placeholder = "Ingrese Telefono", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <label>Login</label>
+                        @Html.TextBoxFor(model => model.login, new { @class = "form-control", @placeholder = "Ingrese login", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <label>Password</label>
+                        @Html.TextBoxFor(model => model.password, new { @class = "form-control", @placeholder = "Ingrese Password", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Raw(Model.msjUsuarioModel)
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <input type="submit" value="Registrar" class="btn btn-success" />
+                            <input type="reset" value="Nuevo" class="btn btn-success" />
+                            <a href="~/Usuarios/ListarUsuarios" class="btn btn-success"><i class="fa fa-arrow-left fa-1x"></i>Volver</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

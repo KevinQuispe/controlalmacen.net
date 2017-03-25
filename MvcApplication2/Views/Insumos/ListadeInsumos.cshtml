@@ -1,0 +1,58 @@
+﻿@model  IEnumerable<almacen.Models.detalleInsumosModel>
+@{
+    ViewBag.Title = "ListadeInsumos";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Lista de Insumos</h3></center>
+    </header>
+
+    <div class="container formulario">
+
+        <div class="col-md-12 ">
+
+            <div class=" pull-right"><a href="~/Insumos/registrarinsumos" class="btn btn-success"><i class="fa fa-plus-circle fa-1x"></i> Nuevo Registro</a></div>
+            <div class="col-md-12">
+                <div class="form-group"></div>
+            </div>
+
+             <hr color="red" />
+            <table class="table table-bordered table-condensed table table-hover table table-striped table table-responsive" >
+
+                <legend>Datos de Insumos <div class=" pull-right"><a href="~/Insumos/inventarioinicial" class="btn btn-info"><i class="fa fa-folder fa-1x" aria-hidden="true"></i> Inventario Actual</a></div></legend>
+                <thead>
+                    <tr class="btn-success">
+
+                        <td><strong>Codigo Insumo</strong></td>
+                        <td><strong>Nombre Insumo</strong></td>
+                        <td><strong>Familia</strong></td>
+                        <td><strong>Unidad</strong></td>
+                    </tr>
+                </thead>
+                <tr>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.codInsumo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.nomInsumo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.famInsumo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.uniInsumo)</td>
+                    </tr>
+                    }
+                </table>
+                <a href="#">
+                    <i class="fa fa-arrow-circle-up fa-2x" title="arriba" style="position: fixed; bottom: 10px; color:green; right: 2%;"></i>
+                </a>
+
+            </div>
+        </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

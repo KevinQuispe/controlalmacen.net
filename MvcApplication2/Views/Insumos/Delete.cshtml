@@ -1,0 +1,59 @@
+﻿@model  almacen.Models.InsumoModel
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar compra</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Estas seguro de eliminar esta compra?</h3>
+            <fieldset>
+                <table class="table table-bordered">
+                    <legend>Datos de compra</legend>
+                    <thead>
+                        <tr class="btn-success">
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Numero</strong></td>
+                            <td><strong>Razon Social</strong></td>
+                            <td><strong>Observacion</strong></td>
+                            <td><strong>Valor Venta</strong></td>
+                            <td><strong>IGV</strong></td>
+                            <td><strong><i class="fa fa-usd" aria-hidden="true"></i> Total</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.fecha_emi)</td>
+                            <td>@Html.DisplayFor(model => model.numcomp)</td>
+                            <td>@Html.DisplayFor(model => model.razon_social)</td>
+                            <td>@Html.DisplayFor(model => model.observ)</td>
+                            <td>@Html.DisplayFor(model => model.valor_venta)</td>
+                            <td>@Html.DisplayFor(model => model.impuesto)</td>
+                            <td>@Html.DisplayFor(model => model.total)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/Insumos/compras" class="btn btn-success"><span class="fa fa-arrow-left"></span>Volver</a>
+
+            </p>
+        }
+    </div>
+    <div class="form-group"></div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

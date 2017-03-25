@@ -1,0 +1,58 @@
+﻿@model  IEnumerable<almacen.Models.ProveedorModel>
+@{
+    ViewBag.Title = "ListadeInsumos";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Lista de Proveedores</h3></center>
+    </header>
+    <div class="container formulario">
+        <div class="col-md-12 ">
+            <div class=" pull-right"><a href="~/Proveedores/Registrarproveedor" class="btn btn-success"><i class="fa fa-user-circle-o fa-1x"></i> Nuevo</a></div>
+            <div class="col-md-12">
+                <div class="form-group"></div>
+            </div>
+            <table class="table table-bordered table-condensed table table-hover table table-striped">
+                <legend>Datos de Proveedor</legend>
+                <thead>
+                    <tr class="btn-success">
+                        <td><strong>Ruc</strong></td>
+                        <td><strong>Raz social</strong></td>
+                        <td><strong>Telefono</strong></td>
+                        <td><strong>Fax</strong></td>
+                        <td><strong>Rep legal</strong></td>
+                        <td><strong>correo</strong></td>
+                        <td width="200px" class="text-center"><strong>Manteniento</strong></td>
+                    </tr>
+                </thead>
+                <tr>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ruc)</td>
+                        <td>@Html.DisplayFor(modelItem => item.raz_soc)</td>
+                        <td>@Html.DisplayFor(modelItem => item.telefono)</td>
+                        <td>@Html.DisplayFor(modelItem => item.fax)</td>
+                        <td>@Html.DisplayFor(modelItem => item.rep_legal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.correo)</td>
+                        <td class="text-center">
+                            <!--action link funciona en el servidor-->
+                            @Html.ActionLink("Editar", "Editar", new { id = item.ruc.Trim() }, new { @class = "btn btn-warning fa fa-pencil fa-1x" })
+                            <span>
+                                @Html.ActionLink("Eliminar", "DeleteProveedor", new { id = item.ruc.Trim() }, new { @class = "btn btn-danger fa fa-trash fa-1x", @title = "Eliminar" })
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

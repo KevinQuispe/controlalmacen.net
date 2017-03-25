@@ -1,0 +1,131 @@
+﻿@model almacen.Models.SemanaProduccion
+
+@{
+    ViewBag.Title = "DetalleTablaSemProd";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Detalle de la Produccion en la Semana</h3></center>
+    </header>
+    <div class="container">
+        @using (Html.BeginForm("DetalleTablaSemProd", "Produccion", FormMethod.Post))
+        {
+            <div class="col-md-12 formulario">
+                <form>
+                    <legend>
+                        <label>RUC DEL PRODUCTOR<li class="fa fa-user-circle-o"></li> <b class="bg-danger">@Model.ruc</b></label>
+                        <a href="~/Produccion/TablasemanaProduccion" class="btn btn-success pull-right"><li class="fa fa-arrow-left"></li> Volver</a>
+                        @Html.HiddenFor(model => model.ruc)@Html.HiddenFor(model => model.prodTerminado)@Html.HiddenFor(model => model.semana) @Html.HiddenFor(model => model.anio)
+                    </legend>
+
+                    <div class="col-md-12">
+                        @Html.Raw(Model.msjSemProduccion)
+                    </div>
+                    <div class="col-md-12">
+                        <fieldset class="has-success">
+                            @if (Model.listSemProdInsumo.Any())
+                            {
+                                <table class="table table-bordered table-condensed">
+                                    <legend>
+                                        Insumos en Producción <a href="~/Produccion/reportemermas/@Model.ruc.Trim()" class="btn btn-info pull-right">Reporte Mermas</a>
+                                    </legend>
+                                    <thead class="text-center">
+                                        <tr class="btn-success">
+                                            <td><strong>Insumo</strong></td>
+                                            <td><strong>Nombre insumo</strong></td>
+                                            <td><strong>Cant Consumo</strong></td>
+                                            <td><strong>Cant Consumo Real</strong></td>
+                                            <td><strong>Costo</strong></td>
+                                         
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.listSemProdInsumo)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@Html.DisplayFor(modelItem => item[0])</td>
+                                                <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                                <td class="text-justify">@Html.DisplayFor(modelItem => item[2])</td>
+                                               
+                                                 <td class="text-justify">
+                                                    @Html.DisplayFor(modelItem => item[3]) &nbsp;
+                                                    <a onclick="asignarValor(this.id)" class="btn btn-warning btn-sm pull-right" data-toggle="modal" data-target="#myModal" id="@item[0]-@item[3]">
+                                                        <span class="text-primary"><i class="fa fa-pencil" aria-hidden="true"></i>Editar</span>
+                                                    </a>
+                                                </td>
+                                                <td class="text-right">@Html.DisplayFor(modelItem => item[4])</td>
+                                                
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </fieldset>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header btn-success">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"><center>Editar Costo</center></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="contenido" class="hideable">
+                                        <div class="col-md-12 formulario">
+                                            <fieldset class="has-success">
+                                                <div class="col-md-12" id="formcostosadicionales">
+                                                    <legend>Cantidad de Insumo Real a Editar</legend>
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>Codinsumo</label>
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            @Html.TextBoxFor(s => s.codinsumoeditar, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                        <div class="col-md-2 ">
+                                                            <label>cantidad</label>
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            @Html.TextBoxFor(s => s.cantinsumorealeditar, new { @class = "form-control", @placeholder = "Ingrese cantidad", @required = "required", @type = "number", @step = "0.0000001", @min = "0" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-md-push">
+                                                        <div class="pull-right">
+                                                            <button type="submit" value="grabar" class="btn btn-success">Grabar</button>
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12"><div class="form-group"></div></div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>  <!--close Modal -->
+                    <script type="text/javascript">
+                        function asignarValor(val) {
+                            var arr = val.split("-");
+                            document.getElementById("codinsumoeditar").value = arr[0];
+                            document.getElementById("cantinsumorealeditar").value = arr[1];
+                        }
+                    </script>
+                </form>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

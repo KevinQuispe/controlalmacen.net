@@ -1,0 +1,49 @@
+﻿@model  IEnumerable<almacen.Models.detalleProdTerminado>
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<header class="page-header">
+    <center><h3>Detalle Producto terminado</h3></center>
+</header>
+<div class="container fluid">
+
+    <div class="col-md-12 formulario">
+
+        <table class="table table-bordered table-condensed">
+            <legend>Detalle Productos terminados <a href="~/Produccion/listaProdTerminado" class="btn btn-success pull-right"><span class="fa fa-arrow-left"></span>volver</a>
+            </legend>
+            <thead class="text-center">
+                <tr class="btn-success">
+                    <td><strong>Codigo</strong></td>
+                    <td><strong>Nombre de Insumo</strong></td>       
+                    <td><strong>Cantidad</strong></td>
+                    <td><strong>Mantenimiento</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.codInsumo</td>
+                        <td>@obj.nomInsumo</td>
+                        <td>@obj.cant</td>
+
+                        <td class="text-center">
+                            <span class="fa fa-pencil btn btn-success btn btn-sm">
+                               @* @Html.ActionLink("Editar", "EditDetalleGuia", new { id = obj.codInsumo.Trim() + "a" + obj.numGuia.Trim() })*@
+                            </span>
+
+                            <span class="fa fa-trash btn btn-danger btn btn-sm">
+                               @* @Html.ActionLink("Eliminar", "DeleteDetalle", new { id = obj.codInsumo.Trim() + "b" + obj.numGuia.Trim(), @text = "c" })*@
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+     
+    </div>
+</div>

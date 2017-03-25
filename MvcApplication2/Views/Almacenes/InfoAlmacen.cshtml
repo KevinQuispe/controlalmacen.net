@@ -1,0 +1,39 @@
+﻿@model almacen.Models.InfoAlmacenModel
+@{
+    ViewBag.Title = "InfoAlmacen";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <header class="page-header">
+            <center><h3>Almacen @Model.descripcion</h3></center>
+        </header>
+
+        <body>
+            <div class="container">
+                <div class="col-md-12 col-md-pull-1">
+
+                    <div class="col-md-3" id="infoalmacen">
+                        <p class="text-primary">Código:@Model.codigo</p>@Html.HiddenFor(model => model.codigo)
+
+                        <p class="text-primary">Dirección:@Model.descripcion </p>@Html.DisplayFor(model => model.direccion)
+                    </div>
+                </div>
+                <img src="../Images/fondo.png" class="fullscreen" alt="fondo" />
+            </div>
+
+        </body>
+
+    }
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+

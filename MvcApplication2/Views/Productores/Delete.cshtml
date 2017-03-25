@@ -1,0 +1,55 @@
+﻿@model almacen.Models.ProductorModel
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar Guia del cliente</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Estas seguro que quieres eliminar?</h3>
+            <fieldset>
+                <table class="table table-bordered table-consended">
+                    <legend>Datos de guia</legend>
+                    <thead class="text-center">
+                        <tr class="btn-success">
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Numero Guia</strong></td>
+                            <td><strong>Proveedor</strong></td>
+                            <td><strong>Persona Recepcion</strong></td>
+                            <td><strong>Observacion</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.fecha)</td>
+                            <td>@Html.DisplayFor(model => model.numGuia)@Html.HiddenFor(model => model.numGuia)</td>
+                            <td>@Html.DisplayFor(model => model.ruc)</td>
+                            <td>@Html.DisplayFor(model => model.personaRecep)</td>
+                            <td>@Html.DisplayFor(model => model.observ)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/Productores/detalleGuia" class="btn btn-success"><i class="fa fa-arrow-left"></i>Volver</a>
+
+            </p>
+        }
+    </div>
+    <div class="form-group"></div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
+

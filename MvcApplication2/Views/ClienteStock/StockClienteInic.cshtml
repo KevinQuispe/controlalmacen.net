@@ -1,0 +1,120 @@
+﻿@model almacen.Models.ClienteStockModel
+
+@{
+    ViewBag.Title = "StockClienteInic";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+<header class="page-header"><center><h3>Stock Inicial de Cliente<li class="fa fa-user"></li></h3></center></header>
+
+
+<div class="container">
+    <div class="col-md-10 col-md-push-1 formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <form class="form">
+                <legend>Datos de Cliente <li class="fa fa-user fa-1x"></li></legend>
+                <div class="col-md-8">
+                    <label>Ruc Cliente</label>
+                    @Html.DropDownListFor(model => model.ruc, Model.listaclientes, "Seleccione un cliente--", new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.ruc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+
+                <div class="col-md-8">
+                    <label>Codigo Insumo</label>
+                    @Html.DropDownListFor(model => model.codinsumo, Model.listainsumos,"Seleccione un insumo--",new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.codinsumo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Stock Inicial</label>
+                    @Html.TextBoxFor(model => model.stockinicial, new { @class = "form-control", @placeholder = "Si es vacío ingrese 0", @required = "required", @type = "number", @step = "0.0001", @min = "0" })
+                    @Html.ValidationMessageFor(model => model.stockinicial, "", new { @class = "text-danger" })
+                </div>          
+                <div class="col-md-4">
+                    <label>S/.Costo Inicial <li class="fa fa-money"></li></label>
+                    @Html.TextBoxFor(model => model.costo, new { @class = "form-control", @placeholder = "Ingrese Costo", @type = "number", @step = "0.000001", @min = "0" })
+                    @Html.ValidationMessageFor(model => model.costo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4  imginsumo">
+                    @*<img src="~/Images/insumos.jpg" width="200" height="180" alt="insumos" class="img-rounded" />*@
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                <div class="form-group"> </div>
+                <div class="col-md-12">
+                    @Html.Raw(Model.msjerror)
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="submit" value="Registrar" class="btn btn-success">Registrar</button>
+                        <input type="reset" value="Nuevo" class="btn btn-success" />
+                        <a href="~/Clientes/StockCliente" class="btn btn-success "><li class="fa fa-arrow-left"></li>Volver</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group"></div>
+                </div>
+                @if (Model.listastockcliente.Any())
+                {
+                    <div id="tablacompra" class="col-md-12">
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr class="btn-success">
+                                    <td><strong>Cod. Insumo</strong></td>
+                                    <td><strong>Nombre Insumo</strong></td>
+                                    <td><strong>RUC Productor</strong></td>
+                                    <td><strong>Stock Inicial</strong></td>
+                                    <td><strong>Costo Inicial</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listastockcliente)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item[0])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[1])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[2])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[3])</td>
+                                        <td>@Html.DisplayFor(modelItem => item[4])</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </form>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function ($) {
+        $("#fechaI").mask("99/99/9999");
+        $("#fechaF").mask("99/99/9999");
+    });
+    function rellenarceros(textbox) {
+        mystr = textbox.value
+        if (textbox.maxLength == 4) {
+            pad = '0000'
+        }
+        if (textbox.maxLength == 6) {
+            pad = '000000'
+        }
+        cadena = (pad + mystr).slice(-pad.length)
+        textbox.value = cadena;
+    }
+</script>
+

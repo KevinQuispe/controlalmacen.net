@@ -1,0 +1,38 @@
+﻿@model almacen.Models.AlmacenModel
+@{
+   ViewBag.Title = "Home";
+   Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if(Model != null && Session["Username"] != null)
+{
+   <header class="page-header">
+      <h3 class="text-center">Control de Almacen</h3>
+   </header>
+   <div class="form-group"></div>
+   <div class="container">
+      <div class="col-md-3 col-md-pull-1 elija">
+          @using (Html.BeginForm("InfoAlmacen", "Almacenes",FormMethod.Post))
+          {
+              
+              <form class="form-group">
+                  <marquee loop="5" direction="rigth"  height="" behavior="alternate">
+                      <h3 class="page-header">Elija su almacen</h3>
+                  </marquee>      
+                @Html.DropDownList("listaalm", Model.listadropalmacenes, "Seleccione", new {onchange = "this.form.submit();", @class = "form-control"})
+              </form>  
+                   
+          }
+      </div>
+       <img src="../Images/fondo.png" class="fullscreen" alt="fondo" />
+   </div>
+   <div>
+   </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("Login", "_self");
+    </script>    
+}
+
+

@@ -1,0 +1,55 @@
+﻿@model  almacen.Models.ClienteModel
+@{
+    ViewBag.Title = "EliminarCliente";
+    Layout = "~/Views/Shared/_principal.cshtml";
+}
+@if (Model != null && Session["Username"] != null && Session["bloquear"] != null && Session["codigoalmacen"] != null)
+{
+    <header class="page-header">
+        <center><h3>Eliminar cliente Productor</h3></center>
+    </header>
+    <div class="container formulario">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h3 class="bg-danger">Esta seguro de eliminar este cliente?</h3>
+            <table class="table table-bordered table-condensed table-responsive">
+                <legend>Datos de cliente Productor</legend>
+                <thead>
+                    <tr class="btn-success">
+                        <td><strong>Ruc</strong></td>
+                        <td><strong>Razon Social</strong></td>
+                        <td><strong>Direcccion</strong></td>
+                        <td><strong>Telefono</strong></td>
+                        <td><strong>Correo</strong></td>
+                        <td><strong>Rep Legal</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.ruc)</td>
+                        <td>@Html.DisplayFor(model => model.razon_soc)</td>
+                        <td>@Html.DisplayFor(model => model.direc)</td>
+                        <td>@Html.DisplayFor(model => model.telef)</td>
+                        <td>@Html.DisplayFor(model => model.correo)</td>
+                        <td>@Html.DisplayFor(model => model.rep_leg)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <div class="from-group"></div>
+            </div>
+            <p class="pull-right">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a href="~/Clientes/listaclientes" class="btn btn-success"><span class="fa fa-arrow-left"></span>Volver</a>
+            </p>
+        }
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        window.open("../Home/Login", "_self");
+    </script>
+}
+
